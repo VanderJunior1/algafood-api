@@ -18,24 +18,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.domain.Estado;
-import com.algaworks.algafood.service.impl.EstadoServiceImpl;
+import com.algaworks.algafood.domain.Restaurante;
+import com.algaworks.algafood.service.impl.RestauranteServiceImpl;
 
 @RestController
-@RequestMapping("/estados")
-public class EstadoController {
-	
+@RequestMapping("/restaurantes")
+public class RestauranteController {
+
 	@Autowired
-	private EstadoServiceImpl estadoServiceImpl;
+	private RestauranteServiceImpl restauranteServiceImpl;
 
 	@GetMapping
-	public List<Estado> listar() {
-		return estadoServiceImpl.findAll();
+	public List<Restaurante> listar() {
+		return restauranteServiceImpl.findAll();
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Estado> findById(@PathVariable Long id) {
-		Estado retorno = estadoServiceImpl.buscar(id);
+	public ResponseEntity<Restaurante> findById(@PathVariable Long id) {
+		Restaurante retorno = restauranteServiceImpl.buscar(id);
 		if (retorno == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -44,28 +44,28 @@ public class EstadoController {
 
 	@PutMapping()
 	@Transactional
-	public ResponseEntity<Estado> atualizar(@RequestBody Estado estado) {
-		Estado estadoAtual = estadoServiceImpl.buscar(estado.getId());
-		if (estadoAtual == null) {
+	public ResponseEntity<Restaurante> atualizar(@RequestBody Restaurante restaurante) {
+		Restaurante restauranteAtual = restauranteServiceImpl.buscar(restaurante.getId());
+		if (restauranteAtual == null) {
 			return ResponseEntity.notFound().build();
 		}
 
-		BeanUtils.copyProperties(estado, estadoAtual, "id");
-		estadoServiceImpl.save(estadoAtual);
-		return ResponseEntity.ok(estadoAtual);
+		BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
+		restauranteServiceImpl.save(restauranteAtual);
+		return ResponseEntity.ok(restauranteAtual);
 	}
 
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	@Transactional
 	public void remover(@PathVariable Long id) {
-		estadoServiceImpl.deleteById(id);
+		restauranteServiceImpl.deleteById(id);
 	}
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Estado> adicionar(@RequestBody Estado estado) {
-		Estado salvo = estadoServiceImpl.save(estado);
+	public ResponseEntity<Restaurante> adicionar(@RequestBody Restaurante restaurante) {
+		Restaurante salvo = restauranteServiceImpl.save(restaurante);
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
 	}
 

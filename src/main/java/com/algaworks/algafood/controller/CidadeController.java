@@ -18,54 +18,54 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.domain.Estado;
-import com.algaworks.algafood.service.impl.EstadoServiceImpl;
+import com.algaworks.algafood.domain.Cidade;
+import com.algaworks.algafood.service.impl.CidadeServiceImpl;
 
 @RestController
-@RequestMapping("/estados")
-public class EstadoController {
+@RequestMapping("/cidades")
+public class CidadeController {
 	
 	@Autowired
-	private EstadoServiceImpl estadoServiceImpl;
+	private CidadeServiceImpl cidadeServiceImpl;
 
 	@GetMapping
-	public List<Estado> listar() {
-		return estadoServiceImpl.findAll();
+	public List<Cidade> listar() {
+		return cidadeServiceImpl.findAll();
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Estado> findById(@PathVariable Long id) {
-		Estado retorno = estadoServiceImpl.buscar(id);
-		if (retorno == null) {
+	public ResponseEntity<Cidade> findById(@PathVariable Long id) {
+		Cidade cidade = cidadeServiceImpl.buscar(id);
+		if (cidade == null) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(retorno);
+		return ResponseEntity.ok(cidade);
 	}
 
 	@PutMapping()
 	@Transactional
-	public ResponseEntity<Estado> atualizar(@RequestBody Estado estado) {
-		Estado estadoAtual = estadoServiceImpl.buscar(estado.getId());
-		if (estadoAtual == null) {
+	public ResponseEntity<Cidade> atualizar(@RequestBody Cidade cidade) {
+		Cidade cidadeAtual = cidadeServiceImpl.buscar(cidade.getId());
+		if (cidadeAtual == null) {
 			return ResponseEntity.notFound().build();
 		}
 
-		BeanUtils.copyProperties(estado, estadoAtual, "id");
-		estadoServiceImpl.save(estadoAtual);
-		return ResponseEntity.ok(estadoAtual);
+		BeanUtils.copyProperties(cidade, cidadeAtual, "id");
+		cidadeServiceImpl.save(cidadeAtual);
+		return ResponseEntity.ok(cidadeAtual);
 	}
 
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	@Transactional
 	public void remover(@PathVariable Long id) {
-		estadoServiceImpl.deleteById(id);
+		cidadeServiceImpl.deleteById(id);
 	}
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Estado> adicionar(@RequestBody Estado estado) {
-		Estado salvo = estadoServiceImpl.save(estado);
+	public ResponseEntity<Cidade> adicionar(@RequestBody Cidade cidade) {
+		Cidade salvo = cidadeServiceImpl.save(cidade);
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
 	}
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.domain.Cozinha;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.exception.EntidadeNaoEncontradaoException;
+import com.algaworks.algafood.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.repository.CozinhaRepository;
 import com.algaworks.algafood.service.CozinhaService;
 
@@ -30,13 +30,12 @@ public class CozinhaServiceImpl implements CozinhaService {
 		try {
 			cozinhaRepository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaoException(String.format("Não existe código de cadastro para a cozinha: ", id));
+			throw new EntidadeNaoEncontradaException(String.format("Não existe código de cadastro para a cozinha: ", id));
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(String.format("Cozinha de código %d não pode ser removida", id));
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-
 	}
 
 	@Override
