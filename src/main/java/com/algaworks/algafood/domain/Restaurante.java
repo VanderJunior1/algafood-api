@@ -2,6 +2,7 @@ package com.algaworks.algafood.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -41,6 +45,16 @@ public class Restaurante implements Serializable {
 	
 	@Column(nullable = false)
 	private BigDecimal taxaFrete;
+	
+	@JsonIgnore
+	@CreationTimestamp
+	@Column(nullable = false, updatable = false, columnDefinition = "datetime")
+	private LocalDateTime dataCadastro;
+	
+	@JsonIgnore
+	@UpdateTimestamp
+	@Column(insertable = false, columnDefinition = "datetime")
+	private LocalDateTime dataAtualizacao;
 	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
