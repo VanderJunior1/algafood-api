@@ -35,11 +35,11 @@ public class EstadoController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Estado> findById(@PathVariable Long id) {
-		Estado retorno = estadoServiceImpl.buscar(id);
-		if (retorno == null) {
+		Estado estado  = estadoServiceImpl.buscar(id);
+		if (estado  == null) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(retorno);
+		return ResponseEntity.ok(estado );
 	}
 
 	@PutMapping()
