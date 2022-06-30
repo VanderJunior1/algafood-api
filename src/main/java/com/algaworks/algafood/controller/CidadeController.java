@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.Cidade;
-import com.algaworks.algafood.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.exception.EstadoNaoEncontradoException;
 import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.service.impl.CidadeServiceImpl;
 
@@ -48,11 +48,11 @@ public class CidadeController {
 	@Transactional
 	public Cidade atualizar(@RequestBody Cidade cidade) {
 		log.info("Atualizando cidade do id {}", cidade.getId());
-		Cidade cidadeAtual = cidadeServiceImpl.buscar(cidade.getId());
-		BeanUtils.copyProperties(cidade, cidadeAtual, "id");
 		try {
+			Cidade cidadeAtual = cidadeServiceImpl.buscar(cidade.getId());
+			BeanUtils.copyProperties(cidade, cidadeAtual, "id");
 			return cidadeServiceImpl.save(cidadeAtual);
-		} catch (EntidadeNaoEncontradaException e) {
+		} catch (EstadoNaoEncontradoException e) {
 			throw new NegocioException(e.getMessage());
 		}
 	}
@@ -71,7 +71,7 @@ public class CidadeController {
 		log.info("Cadastrando nova cidade de nome {}", cidade.getNome());
 		try {
 			return  cidadeServiceImpl.save(cidade);
-		} catch (EntidadeNaoEncontradaException e) {
+		} catch (EstadoNaoEncontradoException e) {
 			throw new NegocioException(e.getMessage());
 		}
 	}

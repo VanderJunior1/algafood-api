@@ -10,17 +10,15 @@ import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.domain.Cidade;
 import com.algaworks.algafood.domain.Estado;
+import com.algaworks.algafood.exception.CidadeNaoEncontradaException;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.repository.CidadeRepository;
 import com.algaworks.algafood.service.CidadeService;
 
 @Service
 public class CidadeServiceImpl implements CidadeService {
 	
-	private static final String MSG_CIDADE_NAO_ENCONTRADA = "Não existe código de cadastro para a cidade: %d";
 	private static final String MSG_CIDADE_EM_USO = "Cidade de código %d não pode ser removida";
-
 
 	@Autowired
 	private CidadeRepository cidadeRepository;
@@ -38,7 +36,7 @@ public class CidadeServiceImpl implements CidadeService {
 		try {
 			cidadeRepository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(String.format(MSG_CIDADE_NAO_ENCONTRADA, id));
+			throw new CidadeNaoEncontradaException(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(String.format(MSG_CIDADE_EM_USO, id));
 		}catch (Exception e) {
@@ -61,8 +59,7 @@ public class CidadeServiceImpl implements CidadeService {
 	@Override
 	public Cidade buscar(Long id) {
 		return cidadeRepository.findById(id).orElseThrow(
-				()-> new EntidadeNaoEncontradaException(
-						String.format(MSG_CIDADE_NAO_ENCONTRADA, id)));
+				()-> new CidadeNaoEncontradaException(id));
 	}
 
 }

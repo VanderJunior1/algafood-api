@@ -9,15 +9,14 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.domain.Cozinha;
+import com.algaworks.algafood.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.repository.CozinhaRepository;
 import com.algaworks.algafood.service.CozinhaService;
 
 @Service
 public class CozinhaServiceImpl implements CozinhaService {
 
-	private static final String MSG_COZINHA_NAO_ENCONTRADA = "Não existe código de cadastro para a cozinha: %d";
 	private static final String MSG_COZINHA_EM_USO = "Cozinha de código %d não pode ser removida";
 	
 	@Autowired
@@ -33,7 +32,7 @@ public class CozinhaServiceImpl implements CozinhaService {
 		try {
 			cozinhaRepository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(String.format(MSG_COZINHA_NAO_ENCONTRADA, id));
+			throw new CozinhaNaoEncontradaException(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(String.format(MSG_COZINHA_EM_USO, id));
 		}catch (Exception e) {
@@ -54,8 +53,7 @@ public class CozinhaServiceImpl implements CozinhaService {
 	@Override
 	public Cozinha buscar(Long id) {
 		return cozinhaRepository.findById(id).orElseThrow(
-				()-> new EntidadeNaoEncontradaException(
-						String.format(MSG_COZINHA_NAO_ENCONTRADA, id)));
+				()-> new CozinhaNaoEncontradaException(id));
 	}
 
 }

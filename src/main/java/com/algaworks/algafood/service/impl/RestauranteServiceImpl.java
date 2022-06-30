@@ -11,14 +11,13 @@ import org.springframework.stereotype.Service;
 import com.algaworks.algafood.domain.Cozinha;
 import com.algaworks.algafood.domain.Restaurante;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.exception.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.repository.RestauranteRepository;
 import com.algaworks.algafood.service.RestauranteService;
 
 @Service
 public class RestauranteServiceImpl implements RestauranteService {
 
-	private static final String MSG_RESTAURANTE_NAO_ENCONTRADO = "Restaurante de código %d não pode ser removida";
 	private static final String MSG_RESTAURANTE_EM_USO = "Não existe código de cadastro para o restaurante: %d";
 	
 	@Autowired
@@ -37,9 +36,9 @@ public class RestauranteServiceImpl implements RestauranteService {
 		try {
 			restauranteRepository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(String.format(MSG_RESTAURANTE_EM_USO, id));
+			throw new RestauranteNaoEncontradoException(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new EntidadeEmUsoException(String.format(MSG_RESTAURANTE_NAO_ENCONTRADO, id));
+			throw new EntidadeEmUsoException(String.format(MSG_RESTAURANTE_EM_USO, id));
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -59,8 +58,8 @@ public class RestauranteServiceImpl implements RestauranteService {
 
 	@Override
 	public Restaurante buscar(Long id) {
-		Restaurante result = restauranteRepository.findById(id).get();
-		return result;
+		return restauranteRepository.findById(id).orElseThrow(
+				()-> new RestauranteNaoEncontradoException(id));
 	}
 
 }
