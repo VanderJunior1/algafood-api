@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algafood.domain.Cozinha;
 import com.algaworks.algafood.service.impl.CozinhaServiceImpl;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/cozinhas")
 public class CozinhaController {
@@ -30,11 +33,13 @@ public class CozinhaController {
 
 	@GetMapping
 	public List<Cozinha> listar() {
+		log.info("Listando cozinhas");
 		return service.findAll();
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Cozinha> findById(@PathVariable Long id) {
+		log.info("Buscando cozinha do id {}", id);	
 		Cozinha retorno = service.buscar(id);
 		if (retorno == null) {
 			return ResponseEntity.notFound().build();
@@ -45,6 +50,7 @@ public class CozinhaController {
 	@PutMapping()
 	@Transactional
 	public ResponseEntity<Cozinha> atualizar(@RequestBody Cozinha cozinha) {
+		log.info("Atualizando cozinha do id {}", cozinha.getId());	
 		Cozinha cozinhaAtual = service.buscar(cozinha.getId());
 		if (cozinhaAtual == null) {
 			return ResponseEntity.notFound().build();
@@ -59,12 +65,14 @@ public class CozinhaController {
 	@DeleteMapping("/{id}")
 	@Transactional
 	public void remover(@PathVariable Long id) {
+		log.info("Removendo cozinha do id {}", id);
 		service.deleteById(id);
 	}
 
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Cozinha> adicionar(@RequestBody Cozinha cozinha) {
+		log.info("Cadastrando nova cozinha de nome {}", cozinha.getNome());
 		Cozinha salvo = service.save(cozinha);
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
 	}

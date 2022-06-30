@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algafood.domain.Cidade;
 import com.algaworks.algafood.service.impl.CidadeServiceImpl;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/cidades")
 public class CidadeController {
@@ -30,11 +33,13 @@ public class CidadeController {
 
 	@GetMapping
 	public List<Cidade> listar() {
+		log.info("Listando cidades");		
 		return cidadeServiceImpl.findAll();
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Cidade> findById(@PathVariable Long id) {
+		log.info("Buscando cidade do id {}", id);		
 		Cidade cidade = cidadeServiceImpl.buscar(id);
 		if (cidade == null) {
 			return ResponseEntity.notFound().build();
@@ -45,6 +50,7 @@ public class CidadeController {
 	@PutMapping()
 	@Transactional
 	public ResponseEntity<Cidade> atualizar(@RequestBody Cidade cidade) {
+		log.info("Atualizando cidade do id {}", cidade.getId());
 		Cidade cidadeAtual = cidadeServiceImpl.buscar(cidade.getId());
 		if (cidadeAtual == null) {
 			return ResponseEntity.notFound().build();
@@ -65,6 +71,7 @@ public class CidadeController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Cidade> adicionar(@RequestBody Cidade cidade) {
+		log.info("Cadastrando nova cidade de nome {}", cidade.getNome());
 		Cidade salvo = cidadeServiceImpl.save(cidade);
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
 	}

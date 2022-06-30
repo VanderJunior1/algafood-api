@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algafood.domain.Estado;
 import com.algaworks.algafood.service.impl.EstadoServiceImpl;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/estados")
 public class EstadoController {
@@ -30,11 +33,13 @@ public class EstadoController {
 
 	@GetMapping
 	public List<Estado> listar() {
+		log.info("Listando estados");
 		return estadoServiceImpl.findAll();
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Estado> findById(@PathVariable Long id) {
+		log.info("Buscando estado do id {}", id);
 		Estado estado  = estadoServiceImpl.buscar(id);
 		if (estado  == null) {
 			return ResponseEntity.notFound().build();
@@ -45,6 +50,7 @@ public class EstadoController {
 	@PutMapping()
 	@Transactional
 	public ResponseEntity<Estado> atualizar(@RequestBody Estado estado) {
+		log.info("Atualizando estado do id {}", estado.getId());
 		Estado estadoAtual = estadoServiceImpl.buscar(estado.getId());
 		if (estadoAtual == null) {
 			return ResponseEntity.notFound().build();
@@ -59,12 +65,14 @@ public class EstadoController {
 	@DeleteMapping("/{id}")
 	@Transactional
 	public void remover(@PathVariable Long id) {
+		log.info("Removendo estado do id {}", id);
 		estadoServiceImpl.deleteById(id);
 	}
 
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Estado> adicionar(@RequestBody Estado estado) {
+		log.info("Cadastrando novo estado de nome {}", estado.getNome());
 		Estado salvo = estadoServiceImpl.save(estado);
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
 	}

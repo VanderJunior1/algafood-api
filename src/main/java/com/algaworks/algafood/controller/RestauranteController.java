@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algafood.domain.Restaurante;
 import com.algaworks.algafood.service.impl.RestauranteServiceImpl;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/restaurantes")
 public class RestauranteController {
@@ -30,11 +33,13 @@ public class RestauranteController {
 
 	@GetMapping
 	public List<Restaurante> listar() {
+		log.info("Listando restaurantes");
 		return restauranteServiceImpl.findAll();
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Restaurante> findById(@PathVariable Long id) {
+		log.info("Buscando restaurante do id {}", id);
 		Restaurante retorno = restauranteServiceImpl.buscar(id);
 		if (retorno == null) {
 			return ResponseEntity.notFound().build();
@@ -45,6 +50,7 @@ public class RestauranteController {
 	@PutMapping()
 	@Transactional
 	public ResponseEntity<Restaurante> atualizar(@RequestBody Restaurante restaurante) {
+		log.info("Atualizando restaurante do id {}", restaurante.getId());
 		Restaurante restauranteAtual = restauranteServiceImpl.buscar(restaurante.getId());
 		if (restauranteAtual == null) {
 			return ResponseEntity.notFound().build();
@@ -60,12 +66,14 @@ public class RestauranteController {
 	@DeleteMapping("/{id}")
 	@Transactional
 	public void remover(@PathVariable Long id) {
+		log.info("Removendo restaurante do id {}", id);
 		restauranteServiceImpl.deleteById(id);
 	}
 
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Restaurante> adicionar(@RequestBody Restaurante restaurante) {
+		log.info("Cadastrando novo restaurante de nome {}", restaurante.getNome());
 		Restaurante salvo = restauranteServiceImpl.save(restaurante);
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
 	}
