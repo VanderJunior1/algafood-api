@@ -38,27 +38,19 @@ public class CozinhaController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Cozinha> findById(@PathVariable Long id) {
+	public Cozinha findById(@PathVariable Long id) {
 		log.info("Buscando cozinha do id {}", id);	
-		Cozinha retorno = service.buscar(id);
-		if (retorno == null) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok(retorno);
+		return service.buscar(id);	
 	}
 
 	@PutMapping()
 	@Transactional
-	public ResponseEntity<Cozinha> atualizar(@RequestBody Cozinha cozinha) {
+	public Cozinha atualizar(@RequestBody Cozinha cozinha) {
 		log.info("Atualizando cozinha do id {}", cozinha.getId());	
-		Cozinha cozinhaAtual = service.buscar(cozinha.getId());
-		if (cozinhaAtual == null) {
-			return ResponseEntity.notFound().build();
-		}
+		Cozinha cozinhaSalva = service.buscar(cozinha.getId());
 
-		BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
-		service.save(cozinhaAtual);
-		return ResponseEntity.ok(cozinhaAtual);
+		BeanUtils.copyProperties(cozinha, cozinhaSalva, "id");
+		return service.save(cozinhaSalva);
 	}
 
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)

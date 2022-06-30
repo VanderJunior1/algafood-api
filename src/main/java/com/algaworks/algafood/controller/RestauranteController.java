@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.Restaurante;
+import com.algaworks.algafood.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.service.impl.RestauranteServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -38,28 +40,23 @@ public class RestauranteController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Restaurante> findById(@PathVariable Long id) {
+	public Restaurante findById(@PathVariable Long id) {
 		log.info("Buscando restaurante do id {}", id);
-		Restaurante retorno = restauranteServiceImpl.buscar(id);
-		if (retorno == null) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok(retorno);
+		return restauranteServiceImpl.buscar(id);
 	}
 
 	@PutMapping()
 	@Transactional
-	public ResponseEntity<Restaurante> atualizar(@RequestBody Restaurante restaurante) {
+	public Restaurante atualizar(@RequestBody Restaurante restaurante) {
 		log.info("Atualizando restaurante do id {}", restaurante.getId());
 		Restaurante restauranteAtual = restauranteServiceImpl.buscar(restaurante.getId());
-		if (restauranteAtual == null) {
-			return ResponseEntity.notFound().build();
-		}
-
 		BeanUtils.copyProperties(restaurante, restauranteAtual, 
-				"id", "formasPagamentos", "endereco", "dataCadastro", "produto");
-		restauranteServiceImpl.save(restauranteAtual);
-		return ResponseEntity.ok(restauranteAtual);
+				"id", "formasPagamentos", "endereco", "dataCadastro", "produtos");
+		try {
+			return restauranteServiceImpl.save(restauranteAtual);
+		} catch (EntidadeNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage());
+		}
 	}
 
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
@@ -70,12 +67,16 @@ public class RestauranteController {
 		restauranteServiceImpl.deleteById(id);
 	}
 
+	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Restaurante> adicionar(@RequestBody Restaurante restaurante) {
+	public Restaurante adicionar(@RequestBody Restaurante restaurante) {
 		log.info("Cadastrando novo restaurante de nome {}", restaurante.getNome());
-		Restaurante salvo = restauranteServiceImpl.save(restaurante);
-		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
+		try {
+			return restauranteServiceImpl.save(restaurante);
+		} catch (EntidadeNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage());
+		}
 	}
 
 }

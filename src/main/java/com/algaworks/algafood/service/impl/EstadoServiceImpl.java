@@ -17,6 +17,9 @@ import com.algaworks.algafood.service.EstadoService;
 @Service
 public class EstadoServiceImpl implements EstadoService {
 
+	private static final String MSG_ESTADO_EM_USO = "Estado de código %d não pode ser removida";
+	private static final String MSG_ESTADO_NAO_ENCONTRADO = "Não existe código de cadastro para o estado: %d";
+	
 	@Autowired
 	private EstadoRepository estadoRepository;
 
@@ -30,9 +33,9 @@ public class EstadoServiceImpl implements EstadoService {
 		try {
 			estadoRepository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(String.format("Não existe código de cadastro para o estado: ", id));
+			throw new EntidadeNaoEncontradaException(String.format(MSG_ESTADO_NAO_ENCONTRADO, id));
 		} catch (DataIntegrityViolationException e) {
-			throw new EntidadeEmUsoException(String.format("Estado de código %d não pode ser removida", id));
+			throw new EntidadeEmUsoException(String.format(MSG_ESTADO_EM_USO, id));
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -50,8 +53,8 @@ public class EstadoServiceImpl implements EstadoService {
 
 	@Override
 	public Estado buscar(Long id) {
-		Estado result = estadoRepository.findById(id).get();
-		return result;
+		return estadoRepository.findById(id).orElseThrow(
+				()-> new EntidadeNaoEncontradaException(String.format(MSG_ESTADO_NAO_ENCONTRADO, id)));
 	}
 
 }

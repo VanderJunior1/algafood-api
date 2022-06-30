@@ -38,27 +38,20 @@ public class EstadoController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Estado> findById(@PathVariable Long id) {
+	public Estado findById(@PathVariable Long id) {
 		log.info("Buscando estado do id {}", id);
-		Estado estado  = estadoServiceImpl.buscar(id);
-		if (estado  == null) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok(estado );
+		Estado estado = estadoServiceImpl.buscar(id);
+		return estado;
 	}
 
 	@PutMapping()
 	@Transactional
-	public ResponseEntity<Estado> atualizar(@RequestBody Estado estado) {
+	public Estado atualizar(@RequestBody Estado estado) {
 		log.info("Atualizando estado do id {}", estado.getId());
 		Estado estadoAtual = estadoServiceImpl.buscar(estado.getId());
-		if (estadoAtual == null) {
-			return ResponseEntity.notFound().build();
-		}
 
 		BeanUtils.copyProperties(estado, estadoAtual, "id");
-		estadoServiceImpl.save(estadoAtual);
-		return ResponseEntity.ok(estadoAtual);
+		return estadoServiceImpl.save(estadoAtual);
 	}
 
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
