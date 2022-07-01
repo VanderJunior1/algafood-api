@@ -3,6 +3,7 @@ package com.algaworks.algafood.controller;
 import java.util.List;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class RestauranteController {
 
 	@PutMapping()
 	@Transactional
-	public Restaurante atualizar(@RequestBody Restaurante restaurante) {
+	public Restaurante atualizar(@RequestBody @Valid Restaurante restaurante) {
 		log.info("Atualizando restaurante do id {}", restaurante.getId());
 		Restaurante restauranteAtual = restauranteServiceImpl.buscar(restaurante.getId());
 		BeanUtils.copyProperties(restaurante, restauranteAtual, 
@@ -69,7 +70,7 @@ public class RestauranteController {
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping
 	@Transactional
-	public Restaurante adicionar(@RequestBody Restaurante restaurante) {
+	public Restaurante adicionar(@RequestBody @Valid Restaurante restaurante) {
 		log.info("Cadastrando novo restaurante de nome {}", restaurante.getNome());
 		try {
 			return restauranteServiceImpl.save(restaurante);

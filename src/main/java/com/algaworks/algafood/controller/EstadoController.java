@@ -3,6 +3,7 @@ package com.algaworks.algafood.controller;
 import java.util.List;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class EstadoController {
 
 	@PutMapping()
 	@Transactional
-	public Estado atualizar(@RequestBody Estado estado) {
+	public Estado atualizar(@RequestBody @Valid Estado estado) {
 		log.info("Atualizando estado do id {}", estado.getId());
 		Estado estadoAtual = estadoServiceImpl.buscar(estado.getId());
 
@@ -64,7 +65,7 @@ public class EstadoController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Estado> adicionar(@RequestBody Estado estado) {
+	public ResponseEntity<Estado> adicionar(@RequestBody @Valid Estado estado) {
 		log.info("Cadastrando novo estado de nome {}", estado.getNome());
 		Estado salvo = estadoServiceImpl.save(estado);
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);

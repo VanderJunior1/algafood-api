@@ -3,6 +3,7 @@ package com.algaworks.algafood.controller;
 import java.util.List;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class CidadeController {
 
 	@PutMapping()
 	@Transactional
-	public Cidade atualizar(@RequestBody Cidade cidade) {
+	public Cidade atualizar(@RequestBody @Valid Cidade cidade) {
 		log.info("Atualizando cidade do id {}", cidade.getId());
 		try {
 			Cidade cidadeAtual = cidadeServiceImpl.buscar(cidade.getId());
@@ -67,7 +68,7 @@ public class CidadeController {
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping
 	@Transactional
-	public Cidade adicionar(@RequestBody Cidade cidade) {
+	public Cidade adicionar(@RequestBody @Valid Cidade cidade) {
 		log.info("Cadastrando nova cidade de nome {}", cidade.getNome());
 		try {
 			return  cidadeServiceImpl.save(cidade);
