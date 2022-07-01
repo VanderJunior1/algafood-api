@@ -29,6 +29,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.algaworks.algafood.validator.Groups;
+import com.algaworks.algafood.validator.TaxaFrete;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -53,6 +54,7 @@ public class Restaurante implements Serializable {
 	private String nome;
 	
 	//@DecimalMin("0")
+	@NotNull
 	@PositiveOrZero
 	@Column(nullable = false)
 	private BigDecimal taxaFrete;
