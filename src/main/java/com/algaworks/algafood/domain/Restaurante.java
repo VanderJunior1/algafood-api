@@ -56,6 +56,7 @@ public class Restaurante implements Serializable {
 	//@DecimalMin("0")
 	@NotNull
 	@PositiveOrZero
+	@TaxaFrete
 	@Column(nullable = false)
 	private BigDecimal taxaFrete;
 	
