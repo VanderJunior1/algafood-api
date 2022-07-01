@@ -1,5 +1,7 @@
 package com.algaworks.algafood.exceptionhandler;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -14,5 +16,8 @@ public class ApiError {
 	private String type;
 	private String title;
 	private String detail;
+	
+	private String userMessage;
+	private LocalDateTime timestamp;
 
 }
