@@ -2,7 +2,7 @@ package com.algaworks.algafood.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,12 +66,12 @@ public class Restaurante implements Serializable {
 	@JsonIgnore
 	@CreationTimestamp
 	@Column(nullable = false, updatable = false, columnDefinition = "datetime")
-	private LocalDateTime dataCadastro;
+	private OffsetDateTime dataCadastro;
 	
 	@JsonIgnore
 	@UpdateTimestamp
 	@Column(insertable = false, columnDefinition = "datetime")
-	private LocalDateTime dataAtualizacao;
+	private OffsetDateTime dataAtualizacao;
 	
 	@Valid
 	@JsonIgnoreProperties(value = "nome", allowGetters = true)
