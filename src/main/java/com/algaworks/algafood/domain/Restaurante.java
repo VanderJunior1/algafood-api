@@ -30,7 +30,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.algaworks.algafood.validator.Groups;
 import com.algaworks.algafood.validator.TaxaFrete;
-import com.algaworks.algafood.validator.ValorZeroIncluiDescricao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -39,7 +38,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@ValorZeroIncluiDescricao(valorField = "taxaFrete", descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
+//@ValorZeroIncluiDescricao(valorField = "taxaFrete", descricaoField = "nome", descricaoObrigatoria = "Frete Grátis")
 @Entity
 @AllArgsConstructor @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
