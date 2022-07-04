@@ -14,7 +14,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.algaworks.algafood.validator.Groups;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,7 +37,6 @@ public class Cozinha implements Serializable {
 	@Column(length = 80, nullable = false)
 	private String nome;
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "cozinha" )
 	List<Restaurante> restaurantes = new ArrayList<>();
 
