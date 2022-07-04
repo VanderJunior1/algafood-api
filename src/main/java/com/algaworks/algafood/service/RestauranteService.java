@@ -9,8 +9,6 @@ public interface RestauranteService {
 
 	public List<Restaurante> findAll();
 
-	public void deleteById(Long id);
-
 	public Restaurante save(Restaurante restaurante);
 
 	public Optional<Restaurante> findById(Long id);
