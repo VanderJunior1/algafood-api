@@ -2,7 +2,6 @@ package com.algaworks.algafood.controller;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -46,7 +45,6 @@ public class CidadeController {
 	}
 
 	@PutMapping()
-	@Transactional
 	public Cidade atualizar(@RequestBody @Valid Cidade cidade) {
 		log.info("Atualizando cidade do id {}", cidade.getId());
 		try {
@@ -60,14 +58,12 @@ public class CidadeController {
 
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
-	@Transactional
 	public void remover(@PathVariable Long id) {
 		cidadeServiceImpl.deleteById(id);
 	}
 
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping
-	@Transactional
 	public Cidade adicionar(@RequestBody @Valid Cidade cidade) {
 		log.info("Cadastrando nova cidade de nome {}", cidade.getNome());
 		try {

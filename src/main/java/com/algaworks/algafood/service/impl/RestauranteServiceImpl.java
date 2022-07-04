@@ -3,6 +3,8 @@ package com.algaworks.algafood.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -32,6 +34,7 @@ public class RestauranteServiceImpl implements RestauranteService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteById(Long id) {
 		try {
 			restauranteRepository.deleteById(id);
@@ -45,6 +48,7 @@ public class RestauranteServiceImpl implements RestauranteService {
 	}
 
 	@Override
+	@Transactional
 	public Restaurante save(Restaurante restaurante) {
 		Cozinha cozinha = cozinhaServiceImpl.buscar(restaurante.getCozinha().getId());
 		restaurante.setCozinha(cozinha);

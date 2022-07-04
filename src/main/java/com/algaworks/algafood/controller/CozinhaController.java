@@ -2,7 +2,6 @@ package com.algaworks.algafood.controller;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -45,7 +44,6 @@ public class CozinhaController {
 	}
 
 	@PutMapping()
-	@Transactional
 	public Cozinha atualizar(@RequestBody @Valid Cozinha cozinha) {
 		log.info("Atualizando cozinha do id {}", cozinha.getId());	
 		Cozinha cozinhaSalva = service.buscar(cozinha.getId());
@@ -56,14 +54,12 @@ public class CozinhaController {
 
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
-	@Transactional
 	public void remover(@PathVariable Long id) {
 		log.info("Removendo cozinha do id {}", id);
 		service.deleteById(id);
 	}
 
 	@PostMapping
-	@Transactional
 	public ResponseEntity<Cozinha> adicionar(@RequestBody @Valid Cozinha cozinha) {
 		log.info("Cadastrando nova cozinha de nome {}", cozinha.getNome());
 		Cozinha salvo = service.save(cozinha);

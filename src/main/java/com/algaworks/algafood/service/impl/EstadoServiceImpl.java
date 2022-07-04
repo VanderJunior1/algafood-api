@@ -3,6 +3,8 @@ package com.algaworks.algafood.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -28,6 +30,7 @@ public class EstadoServiceImpl implements EstadoService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteById(Long id) {
 		try {
 			estadoRepository.deleteById(id);
@@ -41,6 +44,7 @@ public class EstadoServiceImpl implements EstadoService {
 	}
 
 	@Override
+	@Transactional
 	public Estado save(Estado estado) {
 		return estadoRepository.save(estado);
 	}

@@ -2,7 +2,6 @@ package com.algaworks.algafood.controller;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -46,7 +45,6 @@ public class EstadoController {
 	}
 
 	@PutMapping()
-	@Transactional
 	public Estado atualizar(@RequestBody @Valid Estado estado) {
 		log.info("Atualizando estado do id {}", estado.getId());
 		Estado estadoAtual = estadoServiceImpl.buscar(estado.getId());
@@ -57,14 +55,12 @@ public class EstadoController {
 
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
-	@Transactional
 	public void remover(@PathVariable Long id) {
 		log.info("Removendo estado do id {}", id);
 		estadoServiceImpl.deleteById(id);
 	}
 
 	@PostMapping
-	@Transactional
 	public ResponseEntity<Estado> adicionar(@RequestBody @Valid Estado estado) {
 		log.info("Cadastrando novo estado de nome {}", estado.getNome());
 		Estado salvo = estadoServiceImpl.save(estado);
