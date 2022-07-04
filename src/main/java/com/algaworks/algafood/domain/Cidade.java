@@ -15,6 +15,7 @@ import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 
 import com.algaworks.algafood.validator.Groups;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,6 +39,7 @@ public class Cidade implements Serializable {
 	private String nome;
 
 	@Valid
+	@JsonIgnoreProperties(value = "nome", allowGetters = true)
 	@ConvertGroup(from = Default.class, to = Groups.EstadoId.class)
 	@ManyToOne
 	@JoinColumn(name = "estado_id", nullable = false)

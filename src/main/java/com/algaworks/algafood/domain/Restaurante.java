@@ -31,6 +31,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.algaworks.algafood.validator.Groups;
 import com.algaworks.algafood.validator.TaxaFrete;
 import com.algaworks.algafood.validator.ValorZeroIncluiDescricao;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -61,28 +63,34 @@ public class Restaurante implements Serializable {
 	@Column(nullable = false)
 	private BigDecimal taxaFrete;
 	
+	@JsonIgnore
 	@CreationTimestamp
 	@Column(nullable = false, updatable = false, columnDefinition = "datetime")
 	private LocalDateTime dataCadastro;
 	
+	@JsonIgnore
 	@UpdateTimestamp
 	@Column(insertable = false, columnDefinition = "datetime")
 	private LocalDateTime dataAtualizacao;
 	
 	@Valid
+	@JsonIgnoreProperties(value = "nome", allowGetters = true)
 	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
 	@NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
 	
+	@JsonIgnore
 	@Embedded
 	private Endereco endereco;
 	
+	@JsonIgnore
 	@OneToMany
 	(mappedBy ="restaurante" )
 	private List<Produto> produtos = new ArrayList<>();
 	
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "restaurante_forma_pagamento",
 			joinColumns = @JoinColumn(name = "restaurante_id"), 
