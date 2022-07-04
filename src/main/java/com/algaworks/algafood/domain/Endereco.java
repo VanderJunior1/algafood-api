@@ -15,23 +15,23 @@ public class Endereco implements Serializable {
 	private static final long serialVersionUID = -1591062996079781568L;
 
 
-	@Column(name = "endereco_cep", length = 9, nullable = false)
+	@Column(name = "endereco_cep", length = 9)
 	private String cep;
 	
-	@Column(name = "endereco_logradouro", length = 20, nullable = false)
+	@Column(name = "endereco_logradouro", length = 20)
 	private String logradouro;
 	
-	@Column(name = "endereco_numero", length = 10, nullable = false)
+	@Column(name = "endereco_numero", length = 10)
 	private String numero;
 	
 	@Column(name = "endereco_complemento", length = 20)
 	private String complemento;
 	
-	@Column(name = "endereco_bairro", length = 20, nullable = false)
+	@Column(name = "endereco_bairro", length = 20)
 	private String bairro;
 
 	@ManyToOne
-	@JoinColumn(name = "endereco_cidade_id", nullable = false)
+	@JoinColumn(name = "endereco_cidade_id")
 	private Cidade cidade;
 
 }
