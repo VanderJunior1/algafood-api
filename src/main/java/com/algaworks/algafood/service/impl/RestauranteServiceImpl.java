@@ -17,8 +17,6 @@ import com.algaworks.algafood.service.RestauranteService;
 @Service
 public class RestauranteServiceImpl implements RestauranteService {
 
-	private static final String MSG_RESTAURANTE_EM_USO = "Não existe código de cadastro para o restaurante: %d";
-	
 	@Autowired
 	private RestauranteRepository restauranteRepository;
 	
@@ -47,6 +45,20 @@ public class RestauranteServiceImpl implements RestauranteService {
 	public Restaurante buscar(Long id) {
 		return restauranteRepository.findById(id).orElseThrow(
 				()-> new RestauranteNaoEncontradoException(id));
+	}
+
+	@Override
+	@Transactional
+	public void ativar(Long id) {
+		Restaurante restaurante = buscar(id);
+		restaurante.ativar();
+	}
+	
+	@Override
+	@Transactional
+	public void inativar(Long id) {
+		Restaurante restaurante = buscar(id);
+		restaurante.inativar();
 	}
 
 }

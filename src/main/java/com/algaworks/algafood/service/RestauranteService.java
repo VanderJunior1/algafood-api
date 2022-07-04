@@ -14,5 +14,9 @@ public interface RestauranteService {
 	public Optional<Restaurante> findById(Long id);
 
 	public Restaurante buscar(Long id);
+	
+	public void ativar(Long id);
+	
+	public void inativar(Long id);
 
 }

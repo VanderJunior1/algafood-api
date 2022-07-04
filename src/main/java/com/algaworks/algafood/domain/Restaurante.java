@@ -55,6 +55,8 @@ public class Restaurante implements Serializable {
 	@Column(length = 100, nullable = false)
 	private String nome;
 	
+	private Boolean ativo = Boolean.TRUE;
+	
 	//@DecimalMin("0")
 	@NotNull
 	@PositiveOrZero
@@ -95,5 +97,12 @@ public class Restaurante implements Serializable {
 			joinColumns = @JoinColumn(name = "restaurante_id"), 
 			inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
 	private List<FormaPagamento> formasPagamentos = new ArrayList<>();
+	
+	public void ativar(){
+		setAtivo(true);
+	}
 
+	public void inativar(){
+		setAtivo(false);
+	}
 }
