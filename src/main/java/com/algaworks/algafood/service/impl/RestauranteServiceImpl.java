@@ -7,9 +7,11 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.algaworks.algafood.domain.Cidade;
 import com.algaworks.algafood.domain.Cozinha;
+import com.algaworks.algafood.domain.FormaPagamento;
 import com.algaworks.algafood.domain.Restaurante;
 import com.algaworks.algafood.exception.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.repository.RestauranteRepository;
@@ -20,6 +22,9 @@ public class RestauranteServiceImpl implements RestauranteService {
 
 	@Autowired
 	private RestauranteRepository restauranteRepository;
+	
+	@Autowired
+	private FormaPagamentoServiceImpl formaPagamentoServiceImpl;
 	
 	@Autowired
 	private CozinhaServiceImpl cozinhaServiceImpl;
@@ -68,4 +73,20 @@ public class RestauranteServiceImpl implements RestauranteService {
 		restaurante.inativar();
 	}
 
+	@Override
+	@Transactional
+	public void associarFormaPagamento(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
+		Restaurante restaurante = buscar(restauranteId);
+		FormaPagamento formaPagamento = formaPagamentoServiceImpl.buscar(formaPagamentoId);
+		restaurante.associarFormaPagamento(formaPagamento);
+	}
+	
+	@Override
+	@Transactional
+	public void dessassociarFormaPagamento(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
+		Restaurante restaurante = buscar(restauranteId);
+		FormaPagamento formaPagamento = formaPagamentoServiceImpl.buscar(formaPagamentoId);
+		restaurante.dessassociarFormaPagamento(formaPagamento);
+	}
+	
 }

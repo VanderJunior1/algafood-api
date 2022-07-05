@@ -18,5 +18,9 @@ public interface RestauranteService {
 	public void ativar(Long id);
 	
 	public void inativar(Long id);
+	
+	public void associarFormaPagamento(Long restauranteId, Long formaPagamentoId);
+	
+	public void dessassociarFormaPagamento(Long restauranteId, Long formaPagamentoId);
 
 }

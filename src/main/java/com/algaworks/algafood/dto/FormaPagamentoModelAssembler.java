@@ -1,5 +1,6 @@
 package com.algaworks.algafood.dto;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +20,7 @@ public class FormaPagamentoModelAssembler {
         return modelMapper.map(formaPagamento, FormaPagamentoDto.class);
     }
     
-    public List<FormaPagamentoDto> toCollectionModel(List<FormaPagamento> formaPagamentos) {
+    public List<FormaPagamentoDto> toCollectionModel(Collection<FormaPagamento> formaPagamentos) {
         return formaPagamentos.stream()
                 .map(cidade -> toModel(cidade))
                 .collect(Collectors.toList());
