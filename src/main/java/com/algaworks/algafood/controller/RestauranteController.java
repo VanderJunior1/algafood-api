@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +21,8 @@ import com.algaworks.algafood.dto.RestauranteDto;
 import com.algaworks.algafood.dto.RestauranteModelAssembler;
 import com.algaworks.algafood.dto.RestauranteModelDisassembler;
 import com.algaworks.algafood.dto.input.RestauranteDtoInput;
+import com.algaworks.algafood.exception.CidadeNaoEncontradaException;
+import com.algaworks.algafood.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.service.impl.RestauranteServiceImpl;
@@ -58,10 +59,9 @@ public class RestauranteController {
 	@PutMapping("/{id}")
 	public RestauranteDto atualizar(@PathVariable Long id, @RequestBody @Valid RestauranteDtoInput restauranteDtoInput) {
 		log.info("Atualizando restaurante do id {}", id);
-		Restaurante restaurante = restauranteModelDisassembler.toDomainInput(restauranteDtoInput);
 		Restaurante restauranteAtual = restauranteServiceImpl.buscar(id);
-		BeanUtils.copyProperties(restaurante, restauranteAtual, 
-				"id", "formasPagamentos", "endereco", "dataCadastro", "produtos");
+		restauranteModelDisassembler.copyToDomainObject(restauranteDtoInput, restauranteAtual);
+		
 		try {
 			return restauranteModelAssembler.toModel(restauranteServiceImpl.save(restauranteAtual));
 		} catch (EntidadeNaoEncontradaException e) {
@@ -76,7 +76,7 @@ public class RestauranteController {
 		try {
 			Restaurante restaurante = restauranteModelDisassembler.toDomainInput(restauranteDtoInput);
 			return restauranteModelAssembler.toModel(restauranteServiceImpl.save(restaurante));
-		} catch (EntidadeNaoEncontradaException e) {
+		} catch (CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
 		}
 	}

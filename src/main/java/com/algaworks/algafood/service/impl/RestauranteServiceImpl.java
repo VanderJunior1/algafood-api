@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.algaworks.algafood.domain.Cidade;
 import com.algaworks.algafood.domain.Cozinha;
 import com.algaworks.algafood.domain.Restaurante;
 import com.algaworks.algafood.exception.RestauranteNaoEncontradoException;
@@ -22,6 +23,9 @@ public class RestauranteServiceImpl implements RestauranteService {
 	
 	@Autowired
 	private CozinhaServiceImpl cozinhaServiceImpl;
+	
+	@Autowired
+	private CidadeServiceImpl cidadeServiceImpl;
 
 	@Override
 	public List<Restaurante> findAll() {
@@ -32,7 +36,10 @@ public class RestauranteServiceImpl implements RestauranteService {
 	@Transactional
 	public Restaurante save(Restaurante restaurante) {
 		Cozinha cozinha = cozinhaServiceImpl.buscar(restaurante.getCozinha().getId());
+		Cidade cidade = cidadeServiceImpl.buscar(restaurante.getEndereco().getCidade().getId());
+		restaurante.getEndereco().setCidade(cidade);
 		restaurante.setCozinha(cozinha);
+		
 		return restauranteRepository.save(restaurante);
 	}
 
