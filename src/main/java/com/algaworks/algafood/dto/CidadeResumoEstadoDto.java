@@ -4,10 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class CidadeDto {
+public class CidadeResumoEstadoDto {
 
 	private Long Id;
 	private String nome;
-	private CidadeResumoEstadoDto estado;
+	private String estadoNome;
 
 }
