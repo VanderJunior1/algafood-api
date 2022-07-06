@@ -10,4 +10,6 @@ public interface EmissaoPedidoService {
 
 	List<Pedido> findAll();
 
+	Pedido emitir(Pedido pedido);
+
 }
