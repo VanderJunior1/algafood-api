@@ -12,6 +12,7 @@ import com.algaworks.algafood.domain.Cidade;
 import com.algaworks.algafood.domain.Cozinha;
 import com.algaworks.algafood.domain.FormaPagamento;
 import com.algaworks.algafood.domain.Restaurante;
+import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.exception.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.repository.RestauranteRepository;
 import com.algaworks.algafood.service.RestauranteService;
@@ -70,6 +71,26 @@ public class RestauranteServiceImpl implements RestauranteService {
 	public void inativar(Long id) {
 		Restaurante restaurante = buscar(id);
 		restaurante.inativar();
+	}
+	
+	@Override
+	@Transactional
+	public void ativar(List<Long> restauranteIds) {
+		try {
+			restauranteIds.forEach(this::ativar);
+		} catch (RestauranteNaoEncontradoException e) {
+			throw new NegocioException(e.getMessage(), e);
+		}
+	}
+	
+	@Override
+	@Transactional
+	public void inativar(List<Long> restauranteIds) {
+		try {
+			restauranteIds.forEach(this::inativar);
+		} catch (RestauranteNaoEncontradoException e) {
+			throw new NegocioException(e.getMessage(), e);
+		}
 	}
 
 	@Override

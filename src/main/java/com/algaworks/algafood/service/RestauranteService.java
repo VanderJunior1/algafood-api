@@ -27,4 +27,8 @@ public interface RestauranteService {
 
 	void fechar(Long restauranteId);
 
+	void inativar(List<Long> restauranteIds);
+
+	void ativar(List<Long> restauranteIds);
+
 }
