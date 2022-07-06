@@ -16,4 +16,8 @@ public interface GrupoService {
 	public Optional<Grupo> findById(Long id);
 
 	public Grupo buscar(Long id);
+
+	void associarPermissao(Long grupoId, Long permissaoId);
+
+	void desassociarPermissao(Long grupoId, Long permissaoId);
 }

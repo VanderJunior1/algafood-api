@@ -11,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.domain.Grupo;
+import com.algaworks.algafood.domain.Permissao;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.exception.GrupoNaoEncontradoException;
 import com.algaworks.algafood.repository.GrupoRepository;
@@ -23,6 +24,9 @@ public class GrupoServiceImpl implements GrupoService {
 	
 	@Autowired
 	private GrupoRepository grupoRepository;
+	
+	@Autowired
+	private PermissaoServiceImpl permissaoServiceImpl;
 
 	@Override
 	public List<Grupo> findAll() {
@@ -60,5 +64,23 @@ public class GrupoServiceImpl implements GrupoService {
 		return grupoRepository.findById(id).orElseThrow(
 				()-> new GrupoNaoEncontradoException(id));
 	}
+	
+	@Override
+	@Transactional
+	public void desassociarPermissao(Long grupoId, Long permissaoId) {
+	    Grupo grupo = buscar(grupoId);
+	    Permissao permissao = permissaoServiceImpl.buscar(permissaoId);
+	    
+	    grupo.removerPermissao(permissao);
+	}
+
+	@Override
+	@Transactional
+	public void associarPermissao(Long grupoId, Long permissaoId) {
+	    Grupo grupo = buscar(grupoId);
+	    Permissao permissao = permissaoServiceImpl.buscar(permissaoId);
+	    
+	    grupo.adicionarPermissao(permissao);
+	} 
 
 }
