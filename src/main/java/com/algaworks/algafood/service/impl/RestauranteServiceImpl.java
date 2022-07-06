@@ -7,7 +7,6 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.algaworks.algafood.domain.Cidade;
 import com.algaworks.algafood.domain.Cozinha;
@@ -75,7 +74,7 @@ public class RestauranteServiceImpl implements RestauranteService {
 
 	@Override
 	@Transactional
-	public void associarFormaPagamento(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
+	public void associarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
 		Restaurante restaurante = buscar(restauranteId);
 		FormaPagamento formaPagamento = formaPagamentoServiceImpl.buscar(formaPagamentoId);
 		restaurante.associarFormaPagamento(formaPagamento);
@@ -83,10 +82,23 @@ public class RestauranteServiceImpl implements RestauranteService {
 	
 	@Override
 	@Transactional
-	public void dessassociarFormaPagamento(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
+	public void dessassociarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
 		Restaurante restaurante = buscar(restauranteId);
 		FormaPagamento formaPagamento = formaPagamentoServiceImpl.buscar(formaPagamentoId);
 		restaurante.dessassociarFormaPagamento(formaPagamento);
 	}
 	
+	@Override
+	@Transactional
+	public void abrir(Long restauranteId) {
+		Restaurante restaurante = buscar(restauranteId);
+		restaurante.setAberto(true);
+	}
+	
+	@Override
+	@Transactional
+	public void fechar(Long restauranteId) {
+		Restaurante restaurante = buscar(restauranteId);
+		restaurante.setAberto(false);
+	}
 }

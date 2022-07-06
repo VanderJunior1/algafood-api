@@ -59,6 +59,8 @@ public class Restaurante implements Serializable {
 	
 	private Boolean ativo = Boolean.TRUE;
 	
+	private Boolean aberto = Boolean.FALSE;
+	
 	//@DecimalMin("0")
 	@NotNull
 	@PositiveOrZero
@@ -106,6 +108,14 @@ public class Restaurante implements Serializable {
 
 	public void inativar(){
 		setAtivo(false);
+	}
+	
+	public void abrir(){
+		setAberto(true);
+	}
+
+	public void fechar(){
+		setAberto(false);
 	}
 	
 	public boolean dessassociarFormaPagamento(FormaPagamento formaPagamento) {
