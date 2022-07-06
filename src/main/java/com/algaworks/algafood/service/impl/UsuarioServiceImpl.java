@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.algaworks.algafood.domain.Grupo;
 import com.algaworks.algafood.domain.Usuario;
 import com.algaworks.algafood.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.exception.NegocioException;
@@ -24,6 +25,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private GrupoServiceImpl grupoServiceImpl;
 
 	@Override
 	public List<Usuario> findAll() {
@@ -71,6 +75,22 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public Optional<Usuario> findById(Long id) {
 		return usuarioRepository.findById(id);
+	}
+	
+	@Override
+	@Transactional
+	public void associarGrupo(Long usuarioId, Long grupoId) {
+		Usuario usuario = buscar(usuarioId);
+		Grupo grupo = grupoServiceImpl.buscar(grupoId);
+		usuario.adicionarGrupo(grupo);
+	}
+	
+	@Override
+	@Transactional
+	public void desassociarGrupo(Long usuarioId, Long grupoId) {
+		Usuario usuario = buscar(usuarioId);
+		Grupo grupo = grupoServiceImpl.buscar(grupoId);
+		usuario.removerGrupo(grupo);
 	}
 
 }

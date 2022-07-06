@@ -18,4 +18,8 @@ public interface UsuarioService {
 	public Usuario buscar(Long id);
 	
 	public void alterarSenha(Long usuarioId, String senhaAtual, String novaSenha);
+
+	void desassociarGrupo(Long usuarioId, Long grupoId);
+
+	void associarGrupo(Long usuarioId, Long grupoId);
 }
