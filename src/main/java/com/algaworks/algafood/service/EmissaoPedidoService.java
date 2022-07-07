@@ -6,7 +6,7 @@ import com.algaworks.algafood.domain.Pedido;
 
 public interface EmissaoPedidoService {
 
-	Pedido buscar(Long id);
+	Pedido buscar(String codigoPedido);
 
 	List<Pedido> findAll();
 

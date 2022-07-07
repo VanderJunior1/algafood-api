@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/pedidos/{pedidoId}")
+@RequestMapping(value = "/pedidos/{codigoPedido}")
 public class FluxoPedidoController {
 
 	@Autowired
@@ -22,25 +22,25 @@ public class FluxoPedidoController {
 
 	@PutMapping("/confirmar")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void confirmar(@PathVariable Long pedidoId) {
-		log.info("Confirmando pedido de Id {}", pedidoId);
+	public void confirmar(@PathVariable String codigoPedido) {
+		log.info("Confirmando pedido Código:  {}", codigoPedido);
 
-		fluxoPedidoServiceImpl.confirmar(pedidoId);
+		fluxoPedidoServiceImpl.confirmar(codigoPedido);
 	}
 
 	@PutMapping("/cancelar")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void cancelar(@PathVariable Long pedidoId) {
-		log.info("Cancelando pedido de Id {}", pedidoId);
+	public void cancelar(@PathVariable String codigoPedido) {
+		log.info("Cancelando pedido Código:  {}", codigoPedido);
 
-		fluxoPedidoServiceImpl.cancelar(pedidoId);
+		fluxoPedidoServiceImpl.cancelar(codigoPedido);
 	}
 
 	@PutMapping("/entregar")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void entregar(@PathVariable Long pedidoId) {
-		log.info("Entregando pedido de Id {}", pedidoId);
+	public void entregar(@PathVariable String codigoPedido) {
+		log.info("Entregando pedido Código:  {}", codigoPedido);
 
-		fluxoPedidoServiceImpl.entregar(pedidoId);
+		fluxoPedidoServiceImpl.entregar(codigoPedido);
 	}
 }

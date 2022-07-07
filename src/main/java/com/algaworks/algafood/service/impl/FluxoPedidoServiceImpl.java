@@ -16,20 +16,22 @@ public class FluxoPedidoServiceImpl implements FluxoPedidoService {
 
 	@Override
 	@Transactional
-	public void confirmar(Long pedidoId) {
-		Pedido pedido = emissaoPedidoServiceImpl.buscar(pedidoId);
+	public void confirmar(String codigoPedido) {
+		Pedido pedido = emissaoPedidoServiceImpl.buscar(codigoPedido);
 		pedido.confirmar();
 	}
 	
+	@Override
 	@Transactional
-	public void cancelar(Long pedidoId) {
-	    Pedido pedido = emissaoPedidoServiceImpl.buscar(pedidoId);
+	public void cancelar(String codigoPedido) {
+	    Pedido pedido = emissaoPedidoServiceImpl.buscar(codigoPedido);
 	    pedido.cancelar();
 	}
 
+	@Override
 	@Transactional
-	public void entregar(Long pedidoId) {
-	    Pedido pedido = emissaoPedidoServiceImpl.buscar(pedidoId);
+	public void entregar(String codigoPedido) {
+	    Pedido pedido = emissaoPedidoServiceImpl.buscar(codigoPedido);
 	    pedido.entregar();
 	}
 }
