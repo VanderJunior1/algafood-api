@@ -1,9 +1,12 @@
 package com.algaworks.algafood.controller;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +41,7 @@ public class RestauranteProdutoFotoController {
 	public FotoProdutoDto atualizarFoto(
 			@PathVariable Long restauranteId, 
 			@PathVariable Long produtoId,
-			@Valid FotoProdutoInput fotoProdutoInput) {
+			@Valid FotoProdutoInput fotoProdutoInput) throws IOException {
 		log.info("Upload de imagem com nome {}", fotoProdutoInput.getArquivo().getOriginalFilename());
 
 		Produto produto = produtoServiceImpl.buscar(restauranteId, produtoId);
@@ -51,9 +54,16 @@ public class RestauranteProdutoFotoController {
 		fotoProduto.setContent_type(arquivo.getContentType());
 		fotoProduto.setNomeArquivo(arquivo.getOriginalFilename());
 
-		FotoProduto fotoSalva = catalogoFotoProdutoService.salvar(fotoProduto);
+		FotoProduto fotoSalva = catalogoFotoProdutoService.salvar(fotoProduto, arquivo.getInputStream());
 		return fotoProdutoModelAssembler.toModel(fotoSalva);
 
 	}
 
+	@GetMapping
+	public FotoProdutoDto buscar(@PathVariable Long restauranteId, 
+	        @PathVariable Long produtoId) {
+	    FotoProduto fotoProduto = catalogoFotoProdutoService.buscarOuFalhar(restauranteId, produtoId);
+	    
+	    return fotoProdutoModelAssembler.toModel(fotoProduto);
+	}
 }
