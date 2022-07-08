@@ -11,10 +11,11 @@ import org.springframework.stereotype.Service;
 import com.algaworks.algafood.domain.FotoProduto;
 import com.algaworks.algafood.exception.FotoProdutoNaoEncontradaException;
 import com.algaworks.algafood.repository.ProdutoRepository;
+import com.algaworks.algafood.service.CatalogoFotoProdutoService;
 import com.algaworks.algafood.service.FotoStorageService.NovaFoto;
 
 @Service
-public class CatalogoFotoProdutoService {
+public class CatalogoFotoProdutoServiceImpl implements CatalogoFotoProdutoService{
 
 	@Autowired
 	private ProdutoRepository produtoRepository;
@@ -22,6 +23,7 @@ public class CatalogoFotoProdutoService {
 	@Autowired
 	private FotoStorageServiceImpl fotoStorageServiceImpl;
 
+	@Override
 	@Transactional
 	public FotoProduto salvar(FotoProduto foto, InputStream dadosArquivo) {
 		Long restauranteId = foto.getRestauranteId();
@@ -48,6 +50,18 @@ public class CatalogoFotoProdutoService {
 		
 	}
 	
+	@Override
+	@Transactional
+	public void excluir(Long restauranteId, Long produtoId) {
+	    FotoProduto foto = buscarOuFalhar(restauranteId, produtoId);
+	    
+	    produtoRepository.delete(foto);
+	    produtoRepository.flush();
+
+	    fotoStorageServiceImpl.remover(foto.getNomeArquivo());
+	}
+	
+	@Override
 	public FotoProduto buscarOuFalhar(Long restauranteId, Long produtoId) {
 	    return produtoRepository.findFotoById(restauranteId, produtoId)
 	            .orElseThrow(() -> new FotoProdutoNaoEncontradaException(restauranteId, produtoId));
