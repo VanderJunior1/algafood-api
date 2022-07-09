@@ -20,6 +20,6 @@ public interface CozinhaService {
 
 	public Cozinha buscar(Long id);
 
-	Page<Cozinha> findAll(Pageable pageable);
+	public Page<Cozinha> findAll(Pageable pageable);
 
 }

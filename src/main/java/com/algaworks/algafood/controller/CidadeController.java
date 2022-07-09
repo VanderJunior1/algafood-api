@@ -5,6 +5,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,9 +46,16 @@ public class CidadeController {
 	private CidadeInputDisassembler cidadeInputDisassembler;
 
 	@GetMapping
-	public List<CidadeDto> listar() {
-		log.info("Listando cidades");		
-		return cidadeModelAssembler.toCollectionModel(cidadeServiceImpl.findAll());
+	public Page<CidadeDto> listar(@PageableDefault(size = 10) Pageable pageable) {
+		log.info("Listando cidades");	
+		Page<Cidade> cozinhasPage = cidadeServiceImpl.findAll(pageable);
+		List<CidadeDto> cidadeDtos =  cidadeModelAssembler
+				.toCollectionModel(cidadeServiceImpl.findAll());
+		
+		Page<CidadeDto> cidadePageDtos = new PageImpl<>(cidadeDtos, pageable, 
+				cozinhasPage.getTotalElements());
+		
+		return cidadePageDtos;
 	}
 
 	@GetMapping("/{id}")

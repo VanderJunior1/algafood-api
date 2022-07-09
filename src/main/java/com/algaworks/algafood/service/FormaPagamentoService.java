@@ -3,6 +3,9 @@ package com.algaworks.algafood.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.algaworks.algafood.domain.FormaPagamento;
 
 public interface FormaPagamentoService {
@@ -17,5 +20,6 @@ public interface FormaPagamentoService {
 
 	public FormaPagamento buscar(Long id);
 	
+	public Page<FormaPagamento> findAll(Pageable pageable);
 
 }

@@ -8,6 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.domain.FormaPagamento;
@@ -27,6 +29,11 @@ public class FormaPagamentoServiceImpl implements FormaPagamentoService {
 	@Override
 	public List<FormaPagamento> findAll() {
 		return formaPagamentoRepository.findAll();
+	}
+	
+	@Override
+	public Page<FormaPagamento> findAll(Pageable pageable) {
+		return formaPagamentoRepository.findAll(pageable);
 	}
 
 	@Override

@@ -5,6 +5,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UsuarioController {
 
 	@Autowired
-	private UsuarioServiceImpl service;
+	private UsuarioServiceImpl usuarioServiceImpl;
 	
 	@Autowired
 	private UsuarioModelAssembler usuarioModelAssembler;
@@ -41,24 +45,31 @@ public class UsuarioController {
 	private UsuarioInputDisassembler usuarioInputDisassembler;  
 
 	@GetMapping
-	public List<UsuarioDto> listar() {
-		log.info("Listando usuarios");
-		return usuarioModelAssembler.toCollectionModel(service.findAll());
+	public Page<UsuarioDto> listar(@PageableDefault(size = 10) Pageable pageable) {
+		log.info("Listando usuarios");	
+		Page<Usuario> cozinhasPage = usuarioServiceImpl.findAll(pageable);
+		List<UsuarioDto> usuarioDtos =  usuarioModelAssembler
+				.toCollectionModel(usuarioServiceImpl.findAll());
+		
+		Page<UsuarioDto> usuarioPageDtos = new PageImpl<>(usuarioDtos, pageable, 
+				cozinhasPage.getTotalElements());
+		
+		return usuarioPageDtos;
 	}
 
 	@GetMapping("/{id}")
 	public UsuarioDto findById(@PathVariable Long id) {
 		log.info("Buscando usuario de id {}", id);	
-		return usuarioModelAssembler.toModel(service.buscar(id));	
+		return usuarioModelAssembler.toModel(usuarioServiceImpl.buscar(id));	
 	}
 
 	@PutMapping("/{id}")
 	public UsuarioDto atualizar(@PathVariable Long id, @RequestBody @Valid UsuarioInput usuarioInput) {
 		log.info("Atualizando usuario de id {}", id);	
-		Usuario usuarioAtual = service.buscar(id);
+		Usuario usuarioAtual = usuarioServiceImpl.buscar(id);
 
 		usuarioInputDisassembler.copyToDomainObject(usuarioInput, usuarioAtual);
-		usuarioAtual = service.save(usuarioAtual);
+		usuarioAtual = usuarioServiceImpl.save(usuarioAtual);
 	    return usuarioModelAssembler.toModel(usuarioAtual);
 	}
 
@@ -66,7 +77,7 @@ public class UsuarioController {
 	@DeleteMapping("/{id}")
 	public void remover(@PathVariable Long id) {
 		log.info("Removendo usuario do id {}", id);
-		service.deleteById(id);
+		usuarioServiceImpl.deleteById(id);
 	}
 
 	@PostMapping
@@ -74,14 +85,14 @@ public class UsuarioController {
 	public UsuarioDto adicionar(@RequestBody @Valid UsuarioInput usuarioInput) {
 		log.info("Cadastrando novo usuario de nome {}", usuarioInput.getNome());
 		 Usuario usuario = usuarioInputDisassembler.toDomainObject(usuarioInput);
-		 usuario = service.save(usuario);
+		 usuario = usuarioServiceImpl.save(usuario);
 		 return usuarioModelAssembler.toModel(usuario);
 	}
 	
 	@PutMapping("/{usuarioId}/senha")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void alterarSenha(@PathVariable Long usuarioId, @RequestBody @Valid SenhaInput senha) {
-		service.alterarSenha(usuarioId, senha.getSenhaAtual(), senha.getNovaSenha());
+		usuarioServiceImpl.alterarSenha(usuarioId, senha.getSenhaAtual(), senha.getNovaSenha());
 	} 
 
 }

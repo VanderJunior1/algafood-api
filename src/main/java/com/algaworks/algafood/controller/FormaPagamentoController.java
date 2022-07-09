@@ -5,6 +5,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,9 +46,16 @@ public class FormaPagamentoController {
 	private FormaPagamentoDisassembler formaPagamentoDisassembler;
 
 	@GetMapping
-	public List<FormaPagamentoDto> listar() {
-		log.info("Listando formas de pagamentos");
-		return formaPagamentoModelAssembler.toCollectionModel(formaPagamentoServiceImpl.findAll());
+	public Page<FormaPagamentoDto> listar(@PageableDefault(size = 10) Pageable pageable) {
+		log.info("Listando Forma de Pagamentos");	
+		Page<FormaPagamento> cozinhasPage = formaPagamentoServiceImpl.findAll(pageable);
+		List<FormaPagamentoDto> formaPagamentoDtos =  formaPagamentoModelAssembler
+				.toCollectionModel(formaPagamentoServiceImpl.findAll());
+		
+		Page<FormaPagamentoDto> formaPagamentoPageDtos = new PageImpl<>(formaPagamentoDtos, pageable, 
+				cozinhasPage.getTotalElements());
+		
+		return formaPagamentoPageDtos;
 	}
 
 	@GetMapping("/{id}")

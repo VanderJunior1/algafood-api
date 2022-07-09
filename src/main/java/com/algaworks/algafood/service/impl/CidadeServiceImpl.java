@@ -8,6 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.domain.Cidade;
@@ -31,6 +33,11 @@ public class CidadeServiceImpl implements CidadeService {
 	@Override
 	public List<Cidade> findAll() {
 		return cidadeRepository.findAll();
+	}
+	
+	@Override
+	public Page<Cidade> findAll(Pageable pageable) {
+		return cidadeRepository.findAll(pageable);
 	}
 
 	@Override
