@@ -12,12 +12,12 @@ import org.springframework.util.FileCopyUtils;
 
 import com.algaworks.algafood.exception.StorageException;
 import com.algaworks.algafood.service.FotoStorageService;
+import com.algaworks.algafood.storage.StorageProperties;
 
 @Service
 public class FotoStorageServiceImpl implements FotoStorageService {
 
-	@Value("${storage.local.diretorio-fotos}")
-	private Path diretorioFotos;
+	private StorageProperties storageProperties;
 
 	@Override
 	public void remover(String nomeArquivo) {
@@ -42,7 +42,7 @@ public class FotoStorageServiceImpl implements FotoStorageService {
 	}
 
 	private Path getArquivoPath(String nomeArquivo) {
-		return diretorioFotos.resolve(Path.of(nomeArquivo));
+		return storageProperties.getLocal().getDiretorioFotos().resolve(Path.of(nomeArquivo));
 	}
 
 	@Override
