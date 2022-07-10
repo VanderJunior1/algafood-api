@@ -7,14 +7,13 @@ import java.nio.file.Path;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
 import com.algaworks.algafood.exception.StorageException;
 import com.algaworks.algafood.service.FotoStorageService;
 import com.algaworks.algafood.storage.StorageProperties;
 
-@Service
+//@Service
 public class FotoStorageServiceImpl implements FotoStorageService {
 
 	@Autowired

@@ -16,8 +16,9 @@ public interface FotoStorageService {
 	class NovaFoto {
 
 		private String nomeAquivo;
+		private String contentType;
+		private Long size;
 		private InputStream inputStream;
-
 	}
 
 	void remover(String nomeArquivo);

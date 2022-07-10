@@ -21,7 +21,7 @@ public class CatalogoFotoProdutoServiceImpl implements CatalogoFotoProdutoServic
 	private ProdutoRepository produtoRepository;
 	
 	@Autowired
-	private FotoStorageServiceImpl fotoStorageServiceImpl;
+	private S3FotoStorageServiceImpl fotoStorageServiceImpl;
 
 	@Override
 	@Transactional
@@ -44,6 +44,7 @@ public class CatalogoFotoProdutoServiceImpl implements CatalogoFotoProdutoServic
 		NovaFoto novaFoto = NovaFoto.builder()
 				.nomeAquivo(foto.getNomeArquivo())
 				.inputStream(dadosArquivo)
+				.contentType(foto.getContent_type())
 				.build();
 		fotoStorageServiceImpl.substituir(novaFoto, nomeArquivoExistente);
 		return foto;

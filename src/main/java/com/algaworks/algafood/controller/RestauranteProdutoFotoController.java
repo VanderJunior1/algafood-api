@@ -29,8 +29,8 @@ import com.algaworks.algafood.dto.FotoProdutoModelAssembler;
 import com.algaworks.algafood.dto.input.FotoProdutoInput;
 import com.algaworks.algafood.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.service.impl.CatalogoFotoProdutoServiceImpl;
-import com.algaworks.algafood.service.impl.FotoStorageServiceImpl;
 import com.algaworks.algafood.service.impl.ProdutoServiceImpl;
+import com.algaworks.algafood.service.impl.S3FotoStorageServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,7 +49,7 @@ public class RestauranteProdutoFotoController {
 	private FotoProdutoModelAssembler fotoProdutoModelAssembler;
 	
 	@Autowired
-	private FotoStorageServiceImpl fotoStorageServiceImpl;
+	private S3FotoStorageServiceImpl fotoStorageServiceImpl;
 
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public FotoProdutoDto atualizarFoto(
