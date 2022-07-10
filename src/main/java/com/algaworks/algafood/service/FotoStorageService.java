@@ -20,10 +20,25 @@ public interface FotoStorageService {
 		private Long size;
 		private InputStream inputStream;
 	}
+	
+	@Builder @Getter
+	class FotoRecuperada {
+		private InputStream inputStream;
+		private String url;
+		
+		public boolean inputStream() {
+			return inputStream != null;
+		}
+		
+		public boolean temUrl() {
+			return url != null;
+		}
+		
+	}
 
 	void remover(String nomeArquivo);
 
 	void substituir(NovaFoto novaFoto, String nomeArquivoExistente);
 
-	InputStream recuperar(String nomeArquivo);
+	FotoRecuperada recuperar(String nomeArquivo);
 }

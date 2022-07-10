@@ -1,8 +1,6 @@
 package com.algaworks.algafood.service.impl;
 
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.net.URL;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +46,6 @@ public class S3FotoStorageServiceImpl implements FotoStorageService {
 		return String.format("%s/%s", storageProperties.getS3().getDiretorioFotos(), nomeArquivo);
 	}
 
-
 	@Override
 	public void remover(String nomeArquivo) {
 		try {
@@ -77,18 +74,11 @@ public class S3FotoStorageServiceImpl implements FotoStorageService {
 	}
 
 	@Override
-	public InputStream recuperar(String nomeArquivo) {
-		try {
-			Path arquivoPath = getArquivoPath(nomeArquivo);
-
-			return Files.newInputStream(arquivoPath);
-		} catch (Exception e) {
-			throw new StorageException("Não foi possível recuperar arquivo.", e);
-		}
-	}
-	
-	private Path getArquivoPath(String nomeArquivo) {
-		return storageProperties.getLocal().getDiretorioFotos().resolve(Path.of(nomeArquivo));
+	public FotoRecuperada recuperar(String nomeArquivo) {
+		String caminhoArquivo = getCaminhoArquivo(nomeArquivo);
+		URL url = amazonS3.getUrl(storageProperties.getS3().getBucket(), caminhoArquivo);
+		return FotoRecuperada.builder()
+				.url(url.toString()).build();
 	}
 
 }
