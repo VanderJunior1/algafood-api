@@ -3,13 +3,16 @@ package com.algaworks.algafood.dto;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
 public class PedidoResumoDto {
 
+	@ApiModelProperty(example = "1")
 	private String codigo;
+	
 	private BigDecimal subtotal;
 	private BigDecimal taxaFrete;
 	private BigDecimal valorTotal;

@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.algaworks.algafood.validator.FileContentType;
 import com.algaworks.algafood.validator.FileSize;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,7 @@ public class FotoProdutoInput {
 	@FileContentType(allowed = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
 	private MultipartFile arquivo;
 	
+	@ApiModelProperty(example = "Foto Salada")
 	@NotBlank
 	private String descricao;
 }

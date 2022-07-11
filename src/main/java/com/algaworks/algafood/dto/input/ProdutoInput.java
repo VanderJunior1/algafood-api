@@ -6,20 +6,27 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
 public class ProdutoInput {
 	
+	@ApiModelProperty(example = "Sanduíche X-Tudo")
 	@NotBlank
 	private String nome;
+	
+	@ApiModelProperty(example = "Sanduíche completo")
 	@NotBlank
 	private String descricao;
+	
+	@ApiModelProperty(example = "20.00")
 	@NotNull
     @PositiveOrZero
     private BigDecimal preco;
     
+	@ApiModelProperty(example = "TRUE")
     @NotNull
     private Boolean ativo;
 }

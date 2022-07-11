@@ -9,15 +9,18 @@ import javax.validation.constraints.PositiveOrZero;
 
 import com.algaworks.algafood.validator.TaxaFrete;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
 public class RestauranteDtoInput {
 
+	@ApiModelProperty(example = "Bar da Maria")
 	@NotBlank
 	private String nome;
 	
+	@ApiModelProperty(example = "10.00")
 	@NotNull
 	@PositiveOrZero
 	@TaxaFrete
