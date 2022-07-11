@@ -15,6 +15,8 @@
 	<description>API de delivery de comida</description>
 	<properties>
 		<java.version>11</java.version>
+		<modelmapper.version>2.3.8</modelmapper.version>
+		<flyway.version>7.15.0</flyway.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -55,9 +57,9 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.flywaydb</groupId>
+			<groupId>org.flywaydb</groupId><!--$NO-MVN-MAN-VER$-->
 			<artifactId>flyway-core</artifactId>
-			<version>7.15.0</version>
+			<version>${flyway.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -70,7 +72,7 @@
 		<dependency>
   			<groupId>org.modelmapper</groupId>
   			<artifactId>modelmapper</artifactId>
-  			<version>2.3.8</version>
+  			<version>${modelmapper.version}</version>
 		</dependency>
 		
 		<dependency>
