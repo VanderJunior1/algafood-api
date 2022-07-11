@@ -17,6 +17,7 @@
 		<java.version>11</java.version>
 		<modelmapper.version>2.3.8</modelmapper.version>
 		<flyway.version>7.15.0</flyway.version>
+		<springfox.version>2.9.2</springfox.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -81,7 +82,16 @@
 		  <version>1.11.671</version>
 		</dependency>
 		
-		
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${springfox.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springfox.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

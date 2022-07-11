@@ -29,9 +29,13 @@ import com.algaworks.algafood.exception.EstadoNaoEncontradoException;
 import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.service.impl.CidadeServiceImpl;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Api(tags = "Cidades")
 @RestController
 @RequestMapping("/cidades")
 public class CidadeController {
@@ -45,6 +49,7 @@ public class CidadeController {
 	@Autowired
 	private CidadeInputDisassembler cidadeInputDisassembler;
 
+	@ApiOperation("Listando cidades")
 	@GetMapping
 	public Page<CidadeDto> listar(@PageableDefault(size = 10) Pageable pageable) {
 		log.info("Listando cidades");	
@@ -58,14 +63,22 @@ public class CidadeController {
 		return cidadePageDtos;
 	}
 
+	@ApiOperation("Busca uma cidade por ID")
 	@GetMapping("/{id}")
-	public CidadeDto findById(@PathVariable Long id) {
+	public CidadeDto findById(
+			@ApiParam(value = "ID de uma cidade", example = "1", required = true) 
+			@PathVariable Long id) {
 		log.info("Buscando cidade do id {}", id);		
 		return cidadeModelAssembler.toModel(cidadeServiceImpl.buscar(id));
 	}
 
+	@ApiOperation("Atualiza uma cidade por ID")
 	@PutMapping("/{id}")
-	public CidadeDto atualizar(@PathVariable Long id, @RequestBody @Valid CidadeInput cidadeInput) {
+	public CidadeDto atualizar(
+			@ApiParam(value = "ID de uma cidade", example = "1", required = true) 
+			@PathVariable Long id,
+			@ApiParam(name = "corpo",value = "Representação de uma cidade com novos dados", required = true)
+			@RequestBody @Valid CidadeInput cidadeInput) {
 		log.info("Atualizando cidade do id {}", id);
 		try {
 			Cidade cidadeAtual = cidadeServiceImpl.buscar(id);
@@ -78,15 +91,21 @@ public class CidadeController {
 		}
 	}
 
+	@ApiOperation("Remove uma cidade por ID")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
-	public void remover(@PathVariable Long id) {
+	public void remover(
+			@ApiParam(value = "ID de uma cidade", example = "1", required = true)
+			@PathVariable Long id) {
 		cidadeServiceImpl.deleteById(id);
 	}
 
+	@ApiOperation("Cadastra uma cidade")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping
-	public CidadeDto adicionar(@RequestBody @Valid CidadeInput cidadeInput ) {
+	public CidadeDto adicionar(
+			@ApiParam(name = "corpo",value = "Representação de uma nova cidade", required = true) 
+			@RequestBody @Valid CidadeInput cidadeInput ) {
 		log.info("Cadastrando nova cidade de nome {}", cidadeInput.getNome());
 		try {
 			Cidade cidade = cidadeInputDisassembler.toDomainObject(cidadeInput);
