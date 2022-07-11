@@ -27,11 +27,14 @@ import com.algaworks.algafood.dto.CidadeModelAssembler;
 import com.algaworks.algafood.dto.input.CidadeInput;
 import com.algaworks.algafood.exception.EstadoNaoEncontradoException;
 import com.algaworks.algafood.exception.NegocioException;
+import com.algaworks.algafood.exceptionhandler.ApiError;
 import com.algaworks.algafood.service.impl.CidadeServiceImpl;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -64,6 +67,10 @@ public class CidadeController {
 	}
 
 	@ApiOperation("Busca uma cidade por ID")
+	@ApiResponses({
+		@ApiResponse(code = 400, message = "ID da cidade inválido", response = ApiError.class),
+		@ApiResponse(code = 404, message = "Cidade não encontrada", response = ApiError.class)
+		})
 	@GetMapping("/{id}")
 	public CidadeDto findById(
 			@ApiParam(value = "ID de uma cidade", example = "1", required = true) 
@@ -73,6 +80,10 @@ public class CidadeController {
 	}
 
 	@ApiOperation("Atualiza uma cidade por ID")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "Cidade atualizada", response = ApiError.class),
+		@ApiResponse(code = 404, message = "Cidade não encontrada", response = ApiError.class)
+		})
 	@PutMapping("/{id}")
 	public CidadeDto atualizar(
 			@ApiParam(value = "ID de uma cidade", example = "1", required = true) 
@@ -91,7 +102,11 @@ public class CidadeController {
 		}
 	}
 
-	@ApiOperation("Remove uma cidade por ID")
+	@ApiOperation("Exclui uma cidade por ID")
+	@ApiResponses({
+		@ApiResponse(code = 204, message = "Cidade excluída", response = ApiError.class),
+		@ApiResponse(code = 404, message = "Cidade não encontrada", response = ApiError.class)
+		})
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	public void remover(
@@ -100,7 +115,10 @@ public class CidadeController {
 		cidadeServiceImpl.deleteById(id);
 	}
 
-	@ApiOperation("Cadastra uma cidade")
+	@ApiOperation("Cadastra uma nova cidade")
+	@ApiResponses({
+		@ApiResponse(code = 201, message = "Cidade cadastrada")
+		})
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping
 	public CidadeDto adicionar(
