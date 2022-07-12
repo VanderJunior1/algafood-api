@@ -2,7 +2,6 @@ package com.algaworks.algafood.controller.openapi;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 
 import com.algaworks.algafood.dto.CidadeDto;
 import com.algaworks.algafood.dto.input.CidadeInput;
@@ -18,14 +17,13 @@ import io.swagger.annotations.ApiResponses;
 public interface CidadeControllerOpenApi {
 
 	@ApiOperation("Listando cidades")
-	public Page<CidadeDto> listar(@PageableDefault(size = 10) Pageable pageable);
+	public Page<CidadeDto> listar(Pageable pageable);
 
 	@ApiOperation("Busca uma cidade por ID")
 	@ApiResponses({
 		@ApiResponse(code = 400, message = "ID da cidade inválido", response = ApiError.class),
 		@ApiResponse(code = 404, message = "Cidade não encontrada", response = ApiError.class)
 		})
-
 	public CidadeDto findById(
 			@ApiParam(value = "ID de uma cidade", example = "1", required = true) 
 			Long id);

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.algafood.controller.openapi.EstadoControllerOpenApi;
 import com.algaworks.algafood.domain.Estado;
 import com.algaworks.algafood.dto.EstadoDto;
 import com.algaworks.algafood.dto.EstadoInputDisassembler;
@@ -32,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/estados")
-public class EstadoController {
+public class EstadoController implements EstadoControllerOpenApi{
 	
 	@Autowired
 	private EstadoServiceImpl estadoServiceImpl;

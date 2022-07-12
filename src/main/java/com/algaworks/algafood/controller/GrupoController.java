@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.algafood.controller.openapi.GrupoControllerOpenApi;
 import com.algaworks.algafood.domain.Grupo;
 import com.algaworks.algafood.dto.GrupoDto;
 import com.algaworks.algafood.dto.GrupoInputDisassembler;
@@ -32,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping(value = "/grupos")
-public class GrupoController {
+public class GrupoController implements GrupoControllerOpenApi{
 
 	@Autowired
 	private GrupoServiceImpl grupoServiceImpl;

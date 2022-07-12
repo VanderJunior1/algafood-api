@@ -48,7 +48,10 @@ public class SpringFoxConfig implements WebMvcConfigurer  {
 					.additionalModels(typeResolver.resolve(ApiError.class))	
 				.apiInfo(apiInfo())
 				.tags(
-						new Tag("Cidades", "Gerencia as cidades")
+						new Tag("Cidades", "Gerencia as Cidades"),
+						new Tag("Estados", "Gerencia os Estados"),
+						new Tag("Estados", "Gerencia os Cozinhas"),
+						new Tag("Grupos", "Gerencia os Grupos")
 					 	  );
 	}
 	

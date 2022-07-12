@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.algafood.controller.openapi.CozinhaControllerOpenApi;
 import com.algaworks.algafood.domain.Cozinha;
 import com.algaworks.algafood.dto.CozinhaDto;
 import com.algaworks.algafood.dto.CozinhaInputDisassembler;
@@ -32,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/cozinhas")
-public class CozinhaController {
+public class CozinhaController implements CozinhaControllerOpenApi{
 
 	@Autowired
 	private CozinhaServiceImpl service;
