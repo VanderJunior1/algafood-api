@@ -1,27 +1,15 @@
 package com.algaworks.algafood.dto;
 
-import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-import java.util.List;
-
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
 public class RestauranteResumoDto {
 
+	@ApiModelProperty(example = "1")
 	private Long id;
-    private BigDecimal subtotal;
-    private BigDecimal taxaFrete;
-    private BigDecimal valorTotal;
-    private String status;
-    private OffsetDateTime dataCriacao;
-    private OffsetDateTime dataConfirmacao;
-    private OffsetDateTime dataEntrega;
-    private OffsetDateTime dataCancelamento;
-    private RestauranteResumoDto restaurante;
-    private UsuarioDto cliente;
-    private FormaPagamentoDto formaPagamento;
-    private EnderecoDto enderecoEntrega;
-    private List<ItemPedidoDto> itens;
+
+	@ApiModelProperty(example = "Thai Gourmet")
+	private String nome;
 }
