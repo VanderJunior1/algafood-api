@@ -13,20 +13,20 @@ import lombok.Setter;
 @Getter @Setter
 public class ProdutoInput {
 	
-	@ApiModelProperty(example = "Sanduíche X-Tudo")
+	@ApiModelProperty(example = "Sanduíche X-Tudo", required = true)
 	@NotBlank
 	private String nome;
 	
-	@ApiModelProperty(example = "Sanduíche completo")
+	@ApiModelProperty(example = "Sanduíche completo", required = true)
 	@NotBlank
 	private String descricao;
 	
-	@ApiModelProperty(example = "20.00")
+	@ApiModelProperty(example = "20.00", required = true)
 	@NotNull
     @PositiveOrZero
     private BigDecimal preco;
     
-	@ApiModelProperty(example = "TRUE")
+	@ApiModelProperty(example = "true", required = true)
     @NotNull
     private Boolean ativo;
 }

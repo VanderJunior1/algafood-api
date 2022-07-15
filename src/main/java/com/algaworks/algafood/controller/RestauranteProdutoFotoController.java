@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.algaworks.algafood.controller.openapi.RestauranteProdutoFotoControllerOpenApi;
 import com.algaworks.algafood.domain.FotoProduto;
 import com.algaworks.algafood.domain.Produto;
 import com.algaworks.algafood.dto.FotoProdutoDto;
@@ -37,8 +39,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/restaurantes/{restauranteId}/produtos/{produtoId}/foto")
-public class RestauranteProdutoFotoController {
+@RequestMapping(path = "/restaurantes/{restauranteId}/produtos/{produtoId}/foto", produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestauranteProdutoFotoController implements RestauranteProdutoFotoControllerOpenApi {
 
 	@Autowired
 	private CatalogoFotoProdutoServiceImpl catalogoFotoProdutoService;
@@ -52,15 +54,17 @@ public class RestauranteProdutoFotoController {
 	@Autowired
 	private S3FotoStorageServiceImpl fotoStorageServiceImpl;
 
+	@Override
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public FotoProdutoDto atualizarFoto(
 			@PathVariable Long restauranteId, 
 			@PathVariable Long produtoId,
-			@Valid FotoProdutoInput fotoProdutoInput) throws IOException {
+			@Valid FotoProdutoInput fotoProdutoInput,
+			@RequestPart(required = true) MultipartFile arquivo) throws IOException {
 		log.info("Upload de imagem com nome {}", fotoProdutoInput.getArquivo().getOriginalFilename());
 
 		Produto produto = produtoServiceImpl.buscar(restauranteId, produtoId);
-		MultipartFile arquivo = fotoProdutoInput.getArquivo();
+//		MultipartFile arquivo = fotoProdutoInput.getArquivo();
 
 		FotoProduto fotoProduto = new FotoProduto();
 		fotoProduto.setProduto(produto);
@@ -82,7 +86,7 @@ public class RestauranteProdutoFotoController {
 	    return fotoProdutoModelAssembler.toModel(fotoProduto);
 	}
 	
-	@GetMapping(produces = MediaType.IMAGE_JPEG_VALUE)
+	@GetMapping(produces = MediaType.ALL_VALUE	)
 	public ResponseEntity<?> recuperarFoto(@PathVariable Long restauranteId, 
 			@PathVariable Long produtoId, @RequestHeader(name = "accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {
 		try {

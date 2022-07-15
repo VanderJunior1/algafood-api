@@ -1,13 +1,20 @@
 package com.algaworks.algafood.config;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLStreamHandler;
 import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -45,6 +52,9 @@ public class SpringFoxConfig implements WebMvcConfigurer  {
 					.globalResponseMessage(RequestMethod.PUT, globalPostPutResponseMessages())
 					.globalResponseMessage(RequestMethod.POST, globalPostPutResponseMessages())
 					.globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages())
+					.ignoredParameterTypes(ServletWebRequest.class,
+							URL.class, URI.class, URLStreamHandler.class, Resource.class,
+							File.class, InputStream.class)
 					.additionalModels(typeResolver.resolve(ApiError.class))	
 				.apiInfo(apiInfo())
 				.tags(
@@ -54,6 +64,7 @@ public class SpringFoxConfig implements WebMvcConfigurer  {
 						new Tag("Formas de Pagamentos", "Gerencia as Formas de Pagamentos"),
 						new Tag("Grupos", "Gerencia os Grupos"),
 						new Tag("Restaurantes", "Gerencia os restaurantes"),
+						new Tag("Produtos", "Gerencia os produtos de restaurantes"),
 						new Tag("Pedidos", "Gerencia os Pedidosc")
 					 	  );
 	}
