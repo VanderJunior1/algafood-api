@@ -10,15 +10,12 @@ import lombok.Setter;
 @Getter @Setter
 public class UsuarioInput {
 	
-	@ApiModelProperty(example = "Jose Silva")
+	@ApiModelProperty(example = "Jose Silva", required = true)
 	@NotBlank
 	private String nome;
+
 	
-	@ApiModelProperty(example = "senha")
-	@NotBlank
-	private String senha;
-	
-	@ApiModelProperty(example = "email")
+	@ApiModelProperty(example = "email", required = true)
 	@NotBlank
 	@Email
 	private String email;
