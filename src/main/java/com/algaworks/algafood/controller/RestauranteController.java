@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.algafood.controller.openapi.RestauranteControllerOpenApi;
 import com.algaworks.algafood.domain.Restaurante;
 import com.algaworks.algafood.dto.RestauranteDto;
 import com.algaworks.algafood.dto.RestauranteModelAssembler;
@@ -34,8 +36,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/restaurantes")
-public class RestauranteController {
+@RequestMapping(path = "/restaurantes", produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestauranteController implements RestauranteControllerOpenApi {
 
 	@Autowired
 	private RestauranteServiceImpl restauranteServiceImpl;
@@ -63,25 +65,6 @@ public class RestauranteController {
 		return restaurenteMapper;
 	}
 	
-
-//	@GetMapping
-//	public List<RestauranteDto> listar() {
-//		log.info("Listando restaurantes");
-//		return restauranteModelAssembler.toCollectionModel(restauranteServiceImpl.findAll());
-//	}
-//
-//	@JsonView(RestauranteView.ApenasNome.class)
-//	@GetMapping(params = "projecao=apenas-nome")
-//	public List<RestauranteDto> listarApenasNomes() {
-//		return listar();
-//	}
-//	
-//	@JsonView(RestauranteView.Resumo.class)
-//	@GetMapping(params = "projecao=resumo")
-//	public List<RestauranteDto> listarResumido() {
-//		return listar();
-//	}
-
 	@GetMapping("/{id}")
 	public RestauranteDto findById(@PathVariable Long id) {
 		log.info("Buscando restaurante do id {}", id);
