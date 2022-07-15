@@ -17,14 +17,14 @@ import io.swagger.annotations.ApiResponses;
 public interface GrupoControllerOpenApi {
 	
 	@ApiOperation("Listando grupos")
-	public Page<GrupoDto> listar(Pageable pageable);
+	Page<GrupoDto> listar(Pageable pageable);
 
 	@ApiOperation("Busca um grupo por ID")
 	@ApiResponses({
 		@ApiResponse(code = 400, message = "ID do grupo inválido", response = ApiError.class),
 		@ApiResponse(code = 404, message = "Grupo não encontrado", response = ApiError.class)
 		})
-	public GrupoDto findById(
+	GrupoDto findById(
 			@ApiParam(value = "ID de um grupo", example = "1", required = true) 
 			Long id);
 
@@ -33,7 +33,7 @@ public interface GrupoControllerOpenApi {
 		@ApiResponse(code = 200, message = "Grupo atualizado", response = ApiError.class),
 		@ApiResponse(code = 404, message = "Grupo não encontrado", response = ApiError.class)
 		})
-	public GrupoDto atualizar(
+	GrupoDto atualizar(
 			@ApiParam(value = "ID de um grupo", example = "1", required = true) 
 			Long id,
 			@ApiParam(name = "corpo",value = "Representação de um grupo com novos dados", required = true)
@@ -44,7 +44,7 @@ public interface GrupoControllerOpenApi {
 		@ApiResponse(code = 204, message = "Grupo excluído", response = ApiError.class),
 		@ApiResponse(code = 404, message = "Grupo não encontrado", response = ApiError.class)
 		})
-	public void remover(
+	void remover(
 			@ApiParam(value = "ID de um grupo", example = "1", required = true)
 			Long id);
 
@@ -52,7 +52,7 @@ public interface GrupoControllerOpenApi {
 	@ApiResponses({
 		@ApiResponse(code = 201, message = "Grupo cadastrado")
 		})
-	public GrupoDto adicionar(
+	GrupoDto adicionar(
 			@ApiParam(name = "corpo",value = "Representação de um novo grupo", required = true) 
 			GrupoInput grupoInput );
 

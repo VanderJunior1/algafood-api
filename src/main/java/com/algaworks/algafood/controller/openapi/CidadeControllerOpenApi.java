@@ -17,14 +17,14 @@ import io.swagger.annotations.ApiResponses;
 public interface CidadeControllerOpenApi {
 
 	@ApiOperation("Listando cidades")
-	public Page<CidadeDto> listar(Pageable pageable);
+	Page<CidadeDto> listar(Pageable pageable);
 
 	@ApiOperation("Busca uma cidade por ID")
 	@ApiResponses({
 		@ApiResponse(code = 400, message = "ID da cidade inválido", response = ApiError.class),
 		@ApiResponse(code = 404, message = "Cidade não encontrada", response = ApiError.class)
 		})
-	public CidadeDto findById(
+	CidadeDto findById(
 			@ApiParam(value = "ID de uma cidade", example = "1", required = true) 
 			Long id);
 
@@ -33,7 +33,7 @@ public interface CidadeControllerOpenApi {
 		@ApiResponse(code = 200, message = "Cidade atualizada", response = ApiError.class),
 		@ApiResponse(code = 404, message = "Cidade não encontrada", response = ApiError.class)
 		})
-	public CidadeDto atualizar(
+	CidadeDto atualizar(
 			@ApiParam(value = "ID de uma cidade", example = "1", required = true) 
 			Long id,
 			@ApiParam(name = "corpo",value = "Representação de uma cidade com novos dados", required = true)
@@ -44,7 +44,7 @@ public interface CidadeControllerOpenApi {
 		@ApiResponse(code = 204, message = "Cidade excluída", response = ApiError.class),
 		@ApiResponse(code = 404, message = "Cidade não encontrada", response = ApiError.class)
 		})
-	public void remover(
+	void remover(
 			@ApiParam(value = "ID de uma cidade", example = "1", required = true)
 			Long id);
 
@@ -52,7 +52,7 @@ public interface CidadeControllerOpenApi {
 	@ApiResponses({
 		@ApiResponse(code = 201, message = "Cidade cadastrada")
 		})
-	public CidadeDto adicionar(
+	CidadeDto adicionar(
 			@ApiParam(name = "corpo",value = "Representação de uma nova cidade", required = true) 
 			 CidadeInput cidadeInput ) ;
 	

@@ -17,14 +17,14 @@ import io.swagger.annotations.ApiResponses;
 public interface FormaPagamentoControllerOpenApi {
 	
 	@ApiOperation("Listando Formas de Pagamentos")
-	public Page<FormaPagamentoDto> listar(Pageable pageable);
+	Page<FormaPagamentoDto> listar(Pageable pageable);
 
 	@ApiOperation("Busca uma Forma de Pagamento por ID")
 	@ApiResponses({
 		@ApiResponse(code = 400, message = "ID da Forma de Pagamento inválido", response = ApiError.class),
 		@ApiResponse(code = 404, message = "Forma de Pagamento não encontrado", response = ApiError.class)
 		})
-	public FormaPagamentoDto findById(
+	FormaPagamentoDto findById(
 			@ApiParam(value = "ID de uma Forma de Pagamento", example = "1", required = true)
 			Long id);
 
@@ -33,7 +33,7 @@ public interface FormaPagamentoControllerOpenApi {
 		@ApiResponse(code = 200, message = "Forma de Pagamento atualizada", response = ApiError.class),
 		@ApiResponse(code = 404, message = "Forma de Pagamento não encontrada", response = ApiError.class)
 		})
-	public FormaPagamentoDto atualizar(
+	FormaPagamentoDto atualizar(
 			@ApiParam(value = "ID de uma Forma de Pagamento", example = "1", required = true)
 			Long id, 
 			@ApiParam(name = "corpo",value = "Representação de uma Forma de Pagamento com novos dados", required = true)
@@ -43,7 +43,7 @@ public interface FormaPagamentoControllerOpenApi {
 	@ApiResponses({
 		@ApiResponse(code = 201, message = "Forma de Pagamento cadastrado")
 		})
-	public FormaPagamentoDto adicionar(
+	FormaPagamentoDto adicionar(
 			@ApiParam(name = "corpo",value = "Representação de uma nova Forma de Pagamento", required = true)
 			FormaPagamentoInput formaPagamentoInput);
 	
@@ -52,7 +52,7 @@ public interface FormaPagamentoControllerOpenApi {
 		@ApiResponse(code = 204, message = "Forma de Pagamento excluído", response = ApiError.class),
 		@ApiResponse(code = 404, message = "Forma de Pagamento não encontrado", response = ApiError.class)
 		})
-    public void remover(
+    void remover(
     		@ApiParam(value = "ID de uma Forma de Pagamento", example = "1", required = true)
     		Long formaPagamentoId);
 

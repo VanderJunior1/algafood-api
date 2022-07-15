@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiResponses;
 public interface RestauranteControllerOpenApi {
 	
 	@ApiOperation("Listando Restaurantes")
-	public MappingJacksonValue listar(@RequestParam(required = false) String projecao);
+	MappingJacksonValue listar(@RequestParam(required = false) String projecao);
 	
 
 	@ApiOperation("Busca um restaurante por ID")
@@ -26,59 +26,59 @@ public interface RestauranteControllerOpenApi {
         @ApiResponse(code = 400, message = "ID do restaurante inválido", response = Problem.class),
         @ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class)
     })
-	public RestauranteDto findById(Long id);
+	RestauranteDto findById(Long id);
 
 	@ApiOperation("Atualiza um restaurante por ID")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Restaurante atualizado"),
         @ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class)
     })
-	public RestauranteDto atualizar(Long id, RestauranteDtoInput restauranteDtoInput);
+	RestauranteDto atualizar(Long id, RestauranteDtoInput restauranteDtoInput);
 
 	@ApiOperation("Cadastra um restaurante")
     @ApiResponses({
         @ApiResponse(code = 201, message = "Restaurante cadastrado"),
     })
-	public RestauranteDto adicionar(RestauranteDtoInput restauranteDtoInput);
+	RestauranteDto adicionar(RestauranteDtoInput restauranteDtoInput);
 	
 	 @ApiOperation("Ativa um restaurante por ID")
 	    @ApiResponses({
 	        @ApiResponse(code = 204, message = "Restaurante ativado com sucesso"),
 	        @ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class)
 	    })
-	public void ativar(Long id);
+	void ativar(Long id);
 	
 	 @ApiOperation("Inativa um restaurante por ID")
 	    @ApiResponses({
 	        @ApiResponse(code = 204, message = "Restaurante inativado com sucesso"),
 	        @ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class)
 	    })
-	public void inativar(Long id);
+	void inativar(Long id);
 	
 	 @ApiOperation("Inativa múltiplos restaurantes")
 	    @ApiResponses({
 	        @ApiResponse(code = 204, message = "Restaurantes ativados com sucesso")
 	    })
-	public void inativar(List<Long> restauranteIds);
+	void inativar(List<Long> restauranteIds);
 	
 	 @ApiOperation("Desativa múltiplos restaurantes")
 	    @ApiResponses({
 	        @ApiResponse(code = 204, message = "Restaurantes desativados com sucesso")
 	    })
-	public void desativarMultiplos(List<Long> restauranteIds);
+	void desativarMultiplos(List<Long> restauranteIds);
 	
 	 @ApiOperation("Abre um restaurante por ID")
 	    @ApiResponses({
 	        @ApiResponse(code = 204, message = "Restaurante aberto com sucesso"),
 	        @ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class)
 	    })
-	public void abrir(Long id);
+	void abrir(Long id);
 	
 	 @ApiOperation("Fecha um restaurante por ID")
 	    @ApiResponses({
 	        @ApiResponse(code = 204, message = "Restaurante fechado com sucesso"),
 	        @ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class)
 	    })
-	public void fechar(Long id);
+	void fechar(Long id);
 
 }

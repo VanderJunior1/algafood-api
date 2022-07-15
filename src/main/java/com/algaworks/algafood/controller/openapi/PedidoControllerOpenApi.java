@@ -17,18 +17,18 @@ import io.swagger.annotations.ApiResponses;
 public interface PedidoControllerOpenApi {
 
 	@ApiOperation("Listando grupos")
-	public List<PedidoResumoDto> listar();
+	List<PedidoResumoDto> listar();
 	
 	@ApiOperation("Busca um pedido por código")
     @ApiResponses({
         @ApiResponse(code = 404, message = "Pedido não encontrado", response = Problem.class)
     })
-	public PedidoDto buscar(String codigoPedido);
+	PedidoDto buscar(String codigoPedido);
 	
 	@ApiOperation("Registra um pedido")
     @ApiResponses({
         @ApiResponse(code = 201, message = "Pedido registrado"),
     })
-	public PedidoDto adicionar(PedidoInput pedidoInput);
+	PedidoDto adicionar(PedidoInput pedidoInput);
 
 }

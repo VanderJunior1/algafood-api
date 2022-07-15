@@ -17,14 +17,14 @@ import io.swagger.annotations.ApiResponses;
 public interface EstadoControllerOpenApi {
 	
 	@ApiOperation("Listando estados")
-	public Page<EstadoDto> listar(Pageable pageable);
+	Page<EstadoDto> listar(Pageable pageable);
 
 	@ApiOperation("Busca um estado por ID")
 	@ApiResponses({
 		@ApiResponse(code = 400, message = "ID do estado inválido", response = ApiError.class),
 		@ApiResponse(code = 404, message = "Estado não encontrado", response = ApiError.class)
 		})
-	public EstadoDto findById(
+	EstadoDto findById(
 			@ApiParam(value = "ID de um estado", example = "1", required = true)
 			Long id);
 
@@ -33,7 +33,7 @@ public interface EstadoControllerOpenApi {
 		@ApiResponse(code = 200, message = "Estado atualizado", response = ApiError.class),
 		@ApiResponse(code = 404, message = "Estado não encontrado", response = ApiError.class)
 		})
-	public EstadoDto atualizar(
+	EstadoDto atualizar(
 			@ApiParam(value = "ID de um estado", example = "1", required = true)
 			Long id,
 			@ApiParam(name = "corpo",value = "Representação de um estado com novos dados", required = true)
@@ -44,7 +44,7 @@ public interface EstadoControllerOpenApi {
 		@ApiResponse(code = 204, message = "Estado excluído", response = ApiError.class),
 		@ApiResponse(code = 404, message = "Estado não encontrado", response = ApiError.class)
 		})
-	public void remover(
+	void remover(
 			@ApiParam(value = "ID de um estado", example = "1", required = true)
 			Long id);
 
@@ -52,7 +52,7 @@ public interface EstadoControllerOpenApi {
 	@ApiResponses({
 		@ApiResponse(code = 201, message = "Estado cadastrado")
 		})
-	public EstadoDto adicionar(
+	EstadoDto adicionar(
 			@ApiParam(name = "corpo",value = "Representação de um novo estado", required = true)
 			EstadoInput estadoInput);
 
