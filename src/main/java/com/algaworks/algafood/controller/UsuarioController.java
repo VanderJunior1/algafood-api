@@ -1,14 +1,9 @@
 package com.algaworks.algafood.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,16 +42,9 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 	private UsuarioInputDisassembler usuarioInputDisassembler;  
 
 	@GetMapping
-	public Page<UsuarioDto> listar(@PageableDefault(size = 10) Pageable pageable) {
+	public CollectionModel<UsuarioDto> listar() {
 		log.info("Listando usuarios");	
-		Page<Usuario> cozinhasPage = usuarioServiceImpl.findAll(pageable);
-		List<UsuarioDto> usuarioDtos =  usuarioModelAssembler
-				.toCollectionModel(usuarioServiceImpl.findAll());
-		
-		Page<UsuarioDto> usuarioPageDtos = new PageImpl<>(usuarioDtos, pageable, 
-				cozinhasPage.getTotalElements());
-		
-		return usuarioPageDtos;
+		return usuarioModelAssembler.toCollectionModel(usuarioServiceImpl.findAll());
 	}
 
 	@GetMapping("/{id}")

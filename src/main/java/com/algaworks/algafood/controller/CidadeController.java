@@ -1,14 +1,9 @@
 package com.algaworks.algafood.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,16 +43,9 @@ public class CidadeController implements CidadeControllerOpenApi {
 	private CidadeInputDisassembler cidadeInputDisassembler;
 
 	@GetMapping
-	public Page<CidadeDto> listar(@PageableDefault(size = 10) Pageable pageable) {
+	public CollectionModel<CidadeDto> listar() {
 		log.info("Listando cidades");	
-		Page<Cidade> cozinhasPage = cidadeServiceImpl.findAll(pageable);
-		List<CidadeDto> cidadeDtos =  cidadeModelAssembler
-				.toCollectionModel(cidadeServiceImpl.findAll());
-		
-		Page<CidadeDto> cidadePageDtos = new PageImpl<>(cidadeDtos, pageable, 
-				cozinhasPage.getTotalElements());
-		
-		return cidadePageDtos;
+		return cidadeModelAssembler.toCollectionModel(cidadeServiceImpl.findAll());
 	}
 
 	@GetMapping("/{id}")

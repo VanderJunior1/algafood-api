@@ -1,7 +1,6 @@
 package com.algaworks.algafood.controller.openapi;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.CollectionModel;
 
 import com.algaworks.algafood.dto.CidadeDto;
 import com.algaworks.algafood.dto.input.CidadeInput;
@@ -17,7 +16,7 @@ import io.swagger.annotations.ApiResponses;
 public interface CidadeControllerOpenApi {
 
 	@ApiOperation("Listando cidades")
-	Page<CidadeDto> listar(Pageable pageable);
+	CollectionModel<CidadeDto> listar();
 
 	@ApiOperation("Busca uma cidade por ID")
 	@ApiResponses({
