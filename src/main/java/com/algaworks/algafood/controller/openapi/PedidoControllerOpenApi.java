@@ -1,8 +1,8 @@
 package com.algaworks.algafood.controller.openapi;
 
-import java.util.List;
-
 import org.springframework.beans.factory.parsing.Problem;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 
 import com.algaworks.algafood.dto.PedidoDto;
 import com.algaworks.algafood.dto.PedidoResumoDto;
@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiResponses;
 public interface PedidoControllerOpenApi {
 
 	@ApiOperation("Listando grupos")
-	List<PedidoResumoDto> listar();
+	PagedModel<PedidoResumoDto> listar(Pageable pageable);
 	
 	@ApiOperation("Busca um pedido por código")
     @ApiResponses({

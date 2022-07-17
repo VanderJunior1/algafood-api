@@ -5,6 +5,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.domain.Cidade;
@@ -42,6 +44,11 @@ public class EmissaoPedidoServiceImpl implements EmissaoPedidoService {
 	@Override
 	public List<Pedido> findAll() {
 		return pedidoRepository.findAll();
+	}
+	
+	@Override
+	public Page<Pedido> findAll(Pageable pageable) {
+		return pedidoRepository.findAll(pageable);
 	}
 
 	@Override
