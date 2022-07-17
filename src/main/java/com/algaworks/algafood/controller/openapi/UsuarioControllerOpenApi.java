@@ -1,7 +1,8 @@
 package com.algaworks.algafood.controller.openapi;
 
 import org.springframework.beans.factory.parsing.Problem;
-import org.springframework.hateoas.CollectionModel;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 
 import com.algaworks.algafood.dto.UsuarioDto;
 import com.algaworks.algafood.dto.input.SenhaInput;
@@ -17,7 +18,7 @@ import io.swagger.annotations.ApiResponses;
 public interface UsuarioControllerOpenApi {
 
 	@ApiOperation("Lista os usuários")
-	CollectionModel<UsuarioDto> listar();
+	PagedModel<UsuarioDto> listar(Pageable pageable);
 
 	@ApiOperation("Busca um usuário por ID")
     @ApiResponses({

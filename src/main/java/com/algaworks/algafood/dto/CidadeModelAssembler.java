@@ -27,8 +27,7 @@ public class CidadeModelAssembler extends RepresentationModelAssemblerSupport<Ci
 		
 		modelMapper.map(cidade, cidadeDto);
 		
-		cidadeDto.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CidadeController.class)
-				.listar()).withRel("cidades"));
+		cidadeDto.add(WebMvcLinkBuilder.linkTo(CidadeController.class).withRel("estados"));
 
 		cidadeDto.getEstado().add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EstadoController.class)
 				.findById(cidadeDto.getEstado().getId())).withSelfRel());

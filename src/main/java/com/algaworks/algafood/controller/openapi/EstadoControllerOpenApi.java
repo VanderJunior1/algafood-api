@@ -1,7 +1,7 @@
 package com.algaworks.algafood.controller.openapi;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 
 import com.algaworks.algafood.dto.EstadoDto;
 import com.algaworks.algafood.dto.input.EstadoInput;
@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiResponses;
 public interface EstadoControllerOpenApi {
 	
 	@ApiOperation("Listando estados")
-	Page<EstadoDto> listar(Pageable pageable);
+	PagedModel<EstadoDto> listar(Pageable pageable);
 
 	@ApiOperation("Busca um estado por ID")
 	@ApiResponses({

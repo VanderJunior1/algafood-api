@@ -1,14 +1,13 @@
 package com.algaworks.algafood.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,18 +43,16 @@ public class EstadoController implements EstadoControllerOpenApi{
 
 	@Autowired
 	private EstadoInputDisassembler estadoInputDisassembler;
+	
+	@Autowired
+	PagedResourcesAssembler<Estado> pagedResourcesAssembler;
 
 	@GetMapping
-	public Page<EstadoDto> listar(@PageableDefault(size = 10) Pageable pageable) {
+	public PagedModel<EstadoDto> listar(@PageableDefault(size = 10) Pageable pageable) {
 		log.info("Listando estados");	
-		Page<Estado> cozinhasPage = estadoServiceImpl.findAll(pageable);
-		List<EstadoDto> estadoDtos =  estadoModelAssembler
-				.toCollectionModel(estadoServiceImpl.findAll());
-		
-		Page<EstadoDto> estadoPageDtos = new PageImpl<>(estadoDtos, pageable, 
-				cozinhasPage.getTotalElements());
-		
-		return estadoPageDtos;
+		Page<Estado> estadosPage = estadoServiceImpl.findAll(pageable);
+		PagedModel<EstadoDto> cozinhasPagedModel = pagedResourcesAssembler.toModel(estadosPage, estadoModelAssembler);
+		return cozinhasPagedModel;
 	}
 
 	@GetMapping("/{id}")

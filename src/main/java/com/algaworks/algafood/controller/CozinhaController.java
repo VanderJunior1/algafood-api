@@ -1,14 +1,13 @@
 package com.algaworks.algafood.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,20 +42,18 @@ public class CozinhaController implements CozinhaControllerOpenApi{
 	private CozinhaModelAssembler cozinhaModelAssembler;
 
 	@Autowired
-	private CozinhaInputDisassembler cozinhaInputDisassembler;  
+	private CozinhaInputDisassembler cozinhaInputDisassembler;
+	
+	@Autowired
+	PagedResourcesAssembler<Cozinha> pagedResourcesAssembler;
 
 	@GetMapping
-	public Page<CozinhaDto> listar(@PageableDefault(size = 10) Pageable pageable) {
+	public PagedModel<CozinhaDto> listar(@PageableDefault(size = 10) Pageable pageable) {
 		log.info("Listando cozinhas");
 		Page<Cozinha> cozinhasPage = service.findAll(pageable);
+		PagedModel<CozinhaDto> cozinhasPagedModel = pagedResourcesAssembler.toModel(cozinhasPage, cozinhaModelAssembler);
 		
-		List<CozinhaDto> cozinhaDto = cozinhaModelAssembler
-				.toCollectionModel(cozinhasPage.getContent());
-		
-		Page<CozinhaDto> cozinhaPageDtos = new PageImpl<>(cozinhaDto, pageable, 
-				cozinhasPage.getTotalElements());
-		
-		return cozinhaPageDtos;
+		return cozinhasPagedModel;
 	}
 
 	@GetMapping("/{id}")

@@ -1,7 +1,7 @@
 package com.algaworks.algafood.controller.openapi;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 
 import com.algaworks.algafood.dto.CozinhaDto;
 import com.algaworks.algafood.dto.input.CozinhaInput;
@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiResponses;
 public interface CozinhaControllerOpenApi {
 
 	@ApiOperation("Listando cozinhas")
-	Page<CozinhaDto> listar(Pageable pageable);
+	PagedModel<CozinhaDto> listar(Pageable pageable);
 
 	@ApiOperation("Busca uma cozinha por ID")
 	@ApiResponses({
