@@ -18,6 +18,7 @@
 		<modelmapper.version>2.3.8</modelmapper.version>
 		<flyway.version>7.15.0</flyway.version>
 		<springfox.version>2.9.2</springfox.version>
+		<logback-ext-loggly.version>0.1.5</logback-ext-loggly.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -79,7 +80,11 @@
   			<artifactId>modelmapper</artifactId>
   			<version>${modelmapper.version}</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.logback-extensions</groupId>
+			<artifactId>logback-ext-loggly</artifactId>
+			<version>${logback-ext-loggly.version}</version>
+			</dependency>
 		<dependency>
 		  <groupId>com.amazonaws</groupId>
 		  <artifactId>aws-java-sdk-s3</artifactId>
