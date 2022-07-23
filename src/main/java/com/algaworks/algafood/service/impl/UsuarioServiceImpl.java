@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.domain.Grupo;
@@ -30,6 +31,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 	
 	@Autowired
 	private GrupoServiceImpl grupoServiceImpl;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder; 
 
 	@Override
 	public List<Usuario> findAll() {
@@ -59,6 +63,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	@Transactional
 	public Usuario save(Usuario usuario) {
+		if (usuario.isNovo()) {
+			usuario.setSenha(passwordEncoder.encode("123"));
+		}
 		return usuarioRepository.save(usuario);
 	}
 
@@ -67,7 +74,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public void alterarSenha(Long usuarioId, String senhaAtual, String novaSenha) {
 		Usuario usuario = buscar(usuarioId);
 
-		if (usuario.senhaNaoCoincideCom(senhaAtual)) {
+		if (!passwordEncoder.matches(senhaAtual, usuario.getSenha())) {
 			throw new NegocioException("Senha atual informada não coincide com a senha do usuário.");
 		}
 		usuario.setSenha(novaSenha);

@@ -7,7 +7,7 @@ create table permissao (id bigint not null auto_increment, descricao varchar(100
 create table produto (id bigint not null auto_increment, ativo bit not null, descicao varchar(100) not null, nome varchar(100) not null, preco decimal(19,2) not null, restaurante_id bigint not null, primary key (id)) engine=InnoDB;
 create table restaurante (id bigint not null auto_increment, data_atualizacao datetime, data_cadastro datetime not null, endereco_bairro varchar(20), endereco_cep varchar(9), endereco_complemento varchar(20), endereco_logradouro varchar(20), endereco_numero varchar(10), nome varchar(100) not null, taxa_frete decimal(19,2) not null, cozinha_id bigint not null, endereco_cidade_id bigint, primary key (id)) engine=InnoDB;
 create table restaurante_forma_pagamento (restaurante_id bigint not null, forma_pagamento_id bigint not null) engine=InnoDB;
-create table usuario (id bigint not null auto_increment, data_cadastro datetime not null, email varchar(100) not null, nome varchar(100) not null, senha varchar(20) not null, primary key (id)) engine=InnoDB;
+create table usuario (id bigint not null auto_increment, data_cadastro datetime not null, email varchar(100) not null, nome varchar(100) not null, senha varchar(255) not null, primary key (id)) engine=InnoDB;
 create table usuario_grupo (usuario_id bigint not null, grupo_id bigint not null) engine=InnoDB;
 alter table cidade add constraint fk_cidade_estado foreign key (estado_id) references estado (id);
 alter table grupo_permissao add constraint fk_grupo_permissao foreign key (permissao_id) references permissao (id);
