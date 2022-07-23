@@ -112,7 +112,7 @@ insert into usuario (id, nome, email, senha, data_cadastro) values
 (3, 'José Souza', 'jose.aux@algafood.com', '$2a$12$xTeIAppqXRM57NgAsyu1aeT57SMzPqGvG/QWXL8ii2fOH1hBMAXSq', utc_timestamp),
 (4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '$2a$12$xTeIAppqXRM57NgAsyu1aeT57SMzPqGvG/QWXL8ii2fOH1hBMAXSq', utc_timestamp); 
 
-insert into usuario_grupo (usuario_id, grupo_id) values (1, 1), (1, 2), (2, 2);
+insert into usuario_grupo (usuario_id, grupo_id) values (1, 1), (1, 2), (2, 2), (3,3), (4,4);
 
 insert into pedido (id, codigo, restaurante_id, usuario_cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, 
 	    endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
