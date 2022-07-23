@@ -29,6 +29,7 @@ import com.algaworks.algafood.dto.PedidoResumoModelAssembler;
 import com.algaworks.algafood.dto.input.PedidoInput;
 import com.algaworks.algafood.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.exception.NegocioException;
+import com.algaworks.algafood.security.AlgaSecurity;
 import com.algaworks.algafood.service.impl.EmissaoPedidoServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +53,9 @@ public class PedidoController implements PedidoControllerOpenApi {
 	
 	@Autowired
 	PagedResourcesAssembler<Pedido> pagedResourcesAssembler;
+	
+	@Autowired
+	private AlgaSecurity algaSecurity;
 
 	@GetMapping
 	public PagedModel<PedidoResumoDto> listar(@PageableDefault(size = 10) Pageable pageable) {
@@ -75,7 +79,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 	        Pedido novoPedido = pedidoInputDisassembler.toDomainObject(pedidoInput);
 
 	        novoPedido.setCliente(new Usuario());
-	        novoPedido.getCliente().setId(1L);
+	        novoPedido.getCliente().setId(algaSecurity.getUsuarioId());
 	        novoPedido = emissaoPedidoServiceImpl.emitir(novoPedido);
 
 	        return pedidoModelAssembler.toModel(novoPedido);
