@@ -28,6 +28,7 @@ import com.algaworks.algafood.dto.CidadeModelAssembler;
 import com.algaworks.algafood.dto.input.CidadeInput;
 import com.algaworks.algafood.exception.EstadoNaoEncontradoException;
 import com.algaworks.algafood.exception.NegocioException;
+import com.algaworks.algafood.security.CheckSecurity;
 import com.algaworks.algafood.service.impl.CidadeServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +50,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 	@Autowired
 	PagedResourcesAssembler<Cidade> pagedResourcesAssembler;
 
+	@CheckSecurity.Cidades.PodeConsultar
 	@GetMapping
 	public PagedModel<CidadeDto> listar(@PageableDefault(size = 10) Pageable pageable) {
 		log.info("Listando cidades");	
@@ -58,12 +60,14 @@ public class CidadeController implements CidadeControllerOpenApi {
 		return cidadesPagedModel;
 	}
 
+	@CheckSecurity.Cidades.PodeConsultar
 	@GetMapping("/{id}")
 	public CidadeDto findById(@PathVariable Long id) {
 		log.info("Buscando cidade do id {}", id);		
 		return cidadeModelAssembler.toModel(cidadeServiceImpl.buscar(id));
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@PutMapping("/{id}")
 	public CidadeDto atualizar(@PathVariable Long id, @RequestBody @Valid CidadeInput cidadeInput) {
 		log.info("Atualizando cidade do id {}", id);
@@ -78,12 +82,14 @@ public class CidadeController implements CidadeControllerOpenApi {
 		}
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	public void remover(@PathVariable Long id) {
 		cidadeServiceImpl.deleteById(id);
 	}
 
+	@CheckSecurity.Cidades.PodeEditar
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping
 	public CidadeDto adicionar(@RequestBody @Valid CidadeInput cidadeInput ) {

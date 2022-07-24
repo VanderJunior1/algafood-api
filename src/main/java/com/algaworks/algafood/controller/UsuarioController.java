@@ -27,6 +27,7 @@ import com.algaworks.algafood.dto.UsuarioInputDisassembler;
 import com.algaworks.algafood.dto.UsuarioModelAssembler;
 import com.algaworks.algafood.dto.input.SenhaInput;
 import com.algaworks.algafood.dto.input.UsuarioInput;
+import com.algaworks.algafood.security.CheckSecurity;
 import com.algaworks.algafood.service.impl.UsuarioServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +49,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 	@Autowired
 	PagedResourcesAssembler<Usuario> pagedResourcesAssembler;
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@GetMapping
 	public PagedModel<UsuarioDto> listar(@PageableDefault(size = 10) Pageable pageable) {
 		log.info("Listando usuarios");	
@@ -57,12 +59,14 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 		return usuariosPagedModel;
 	}
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@GetMapping("/{id}")
 	public UsuarioDto findById(@PathVariable Long id) {
 		log.info("Buscando usuario de id {}", id);	
 		return usuarioModelAssembler.toModel(usuarioServiceImpl.buscar(id));	
 	}
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@PutMapping("/{id}")
 	public UsuarioDto atualizar(@PathVariable Long id, @RequestBody @Valid UsuarioInput usuarioInput) {
 		log.info("Atualizando usuario de id {}", id);	
@@ -73,6 +77,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 	    return usuarioModelAssembler.toModel(usuarioAtual);
 	}
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	public void remover(@PathVariable Long id) {
@@ -80,6 +85,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 		usuarioServiceImpl.deleteById(id);
 	}
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public UsuarioDto adicionar(@RequestBody @Valid UsuarioInput usuarioInput) {
@@ -89,6 +95,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 		 return usuarioModelAssembler.toModel(usuario);
 	}
 	
+	@CheckSecurity.UsuariosGruposPermissoes.PodeAlterarPropriaSenha
 	@PutMapping("/{usuarioId}/senha")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void alterarSenha(@PathVariable Long usuarioId, @RequestBody @Valid SenhaInput senha) {

@@ -27,6 +27,7 @@ import com.algaworks.algafood.dto.GrupoDto;
 import com.algaworks.algafood.dto.GrupoInputDisassembler;
 import com.algaworks.algafood.dto.GrupoModelAssembler;
 import com.algaworks.algafood.dto.input.GrupoInput;
+import com.algaworks.algafood.security.CheckSecurity;
 import com.algaworks.algafood.service.impl.GrupoServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +46,7 @@ public class GrupoController implements GrupoControllerOpenApi{
 	@Autowired
 	private GrupoInputDisassembler grupoInputDisassembler;  
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@GetMapping
 	public Page<GrupoDto> listar(@PageableDefault(size = 10) Pageable pageable) {
 		log.info("Listando grupos");	
@@ -58,12 +60,14 @@ public class GrupoController implements GrupoControllerOpenApi{
 		return grupoPageDtos;
 	}
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@GetMapping("/{id}")
 	public GrupoDto findById(@PathVariable Long id) {
 		log.info("Buscando grupo de id {}", id);	
 		return grupoModelAssembler.toModel(grupoServiceImpl.buscar(id));	
 	}
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@PutMapping("/{id}")
 	public GrupoDto atualizar(@PathVariable Long id, @RequestBody @Valid GrupoInput grupoInput) {
 		log.info("Atualizando grupo de id {}", id);	
@@ -74,6 +78,7 @@ public class GrupoController implements GrupoControllerOpenApi{
 	    return grupoModelAssembler.toModel(grupoAtual);
 	}
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	public void remover(@PathVariable Long id) {
@@ -81,6 +86,7 @@ public class GrupoController implements GrupoControllerOpenApi{
 		grupoServiceImpl.deleteById(id);
 	}
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public GrupoDto adicionar(@RequestBody @Valid GrupoInput grupoInput) {

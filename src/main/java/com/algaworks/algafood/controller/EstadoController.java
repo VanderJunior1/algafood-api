@@ -26,6 +26,7 @@ import com.algaworks.algafood.dto.EstadoDto;
 import com.algaworks.algafood.dto.EstadoInputDisassembler;
 import com.algaworks.algafood.dto.EstadoModelAssembler;
 import com.algaworks.algafood.dto.input.EstadoInput;
+import com.algaworks.algafood.security.CheckSecurity;
 import com.algaworks.algafood.service.impl.EstadoServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +48,7 @@ public class EstadoController implements EstadoControllerOpenApi{
 	@Autowired
 	PagedResourcesAssembler<Estado> pagedResourcesAssembler;
 
+	@CheckSecurity.Estados.PodeConsultar
 	@GetMapping
 	public PagedModel<EstadoDto> listar(@PageableDefault(size = 10) Pageable pageable) {
 		log.info("Listando estados");	
@@ -55,6 +57,7 @@ public class EstadoController implements EstadoControllerOpenApi{
 		return cozinhasPagedModel;
 	}
 
+	@CheckSecurity.Estados.PodeConsultar
 	@GetMapping("/{id}")
 	public EstadoDto findById(@PathVariable Long id) {
 		log.info("Buscando estado do id {}", id);
@@ -62,6 +65,7 @@ public class EstadoController implements EstadoControllerOpenApi{
 		return estadoModelAssembler.toModel(estado);
 	}
 
+	@CheckSecurity.Estados.PodeEditar
 	@PutMapping("/{id}")
 	public EstadoDto atualizar(@PathVariable Long id, @RequestBody @Valid EstadoInput estadoInput) {
 		log.info("Atualizando estado do id {}", id);
@@ -72,6 +76,7 @@ public class EstadoController implements EstadoControllerOpenApi{
 		return estadoModelAssembler.toModel(estadoAtual);
 	}
 
+	@CheckSecurity.Estados.PodeEditar
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	public void remover(@PathVariable Long id) {
@@ -79,6 +84,7 @@ public class EstadoController implements EstadoControllerOpenApi{
 		estadoServiceImpl.deleteById(id);
 	}
 
+	@CheckSecurity.Estados.PodeEditar
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public EstadoDto adicionar(@RequestBody @Valid EstadoInput estadoInput) {

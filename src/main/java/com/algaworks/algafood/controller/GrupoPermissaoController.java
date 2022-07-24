@@ -18,6 +18,7 @@ import com.algaworks.algafood.controller.openapi.GrupoPermissaoControllerOpenApi
 import com.algaworks.algafood.domain.Grupo;
 import com.algaworks.algafood.dto.PermissaoDto;
 import com.algaworks.algafood.dto.PermissaoModelAssembler;
+import com.algaworks.algafood.security.CheckSecurity;
 import com.algaworks.algafood.service.impl.GrupoServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,7 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
 	@Autowired
 	private PermissaoModelAssembler permissaoModelAssembler;
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@GetMapping
 	public List<PermissaoDto> listar(@RequestParam Long grupoId) {
 		log.info("Buscando lista de permissoes de id {}", grupoId);

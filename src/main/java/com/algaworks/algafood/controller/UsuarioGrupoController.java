@@ -17,6 +17,7 @@ import com.algaworks.algafood.controller.openapi.UsuarioGrupoControllerOpenApi;
 import com.algaworks.algafood.domain.Usuario;
 import com.algaworks.algafood.dto.GrupoDto;
 import com.algaworks.algafood.dto.GrupoModelAssembler;
+import com.algaworks.algafood.security.CheckSecurity;
 import com.algaworks.algafood.service.impl.UsuarioServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,7 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi{
 	@Autowired
 	private GrupoModelAssembler grupoModelAssembler;
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
 	@GetMapping
 	public List<GrupoDto> listar(@PathVariable Long usuarioId) {
 		log.info("Buscando lista de permissoes do usuario de id {}", usuarioId);
@@ -39,6 +41,7 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi{
 		return grupoModelAssembler.toCollectionModel(usuario.getGrupos());
 	}
 
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
 	@DeleteMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void desassociar(@PathVariable Long usuarioId, @PathVariable Long grupoId) {
@@ -46,6 +49,7 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi{
 		usuarioServiceImpl.desassociarGrupo(usuarioId, grupoId);
     }
     
+	@CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @PutMapping("/{grupoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void associar(@PathVariable Long usuarioId, @PathVariable Long grupoId) {
