@@ -30,6 +30,7 @@ import com.algaworks.algafood.dto.FotoProdutoDto;
 import com.algaworks.algafood.dto.FotoProdutoModelAssembler;
 import com.algaworks.algafood.dto.input.FotoProdutoInput;
 import com.algaworks.algafood.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.security.CheckSecurity;
 import com.algaworks.algafood.service.FotoStorageService.FotoRecuperada;
 import com.algaworks.algafood.service.impl.CatalogoFotoProdutoServiceImpl;
 import com.algaworks.algafood.service.impl.ProdutoServiceImpl;
@@ -54,6 +55,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 	@Autowired
 	private S3FotoStorageServiceImpl fotoStorageServiceImpl;
 
+	@CheckSecurity.Restaurantes.PodeEditar
 	@Override
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public FotoProdutoDto atualizarFoto(
@@ -78,6 +80,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 
 	}
 
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@GetMapping
 	public FotoProdutoDto buscar(@PathVariable Long restauranteId, 
 	        @PathVariable Long produtoId) {
@@ -86,6 +89,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 	    return fotoProdutoModelAssembler.toModel(fotoProduto);
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@GetMapping(produces = MediaType.ALL_VALUE	)
 	public ResponseEntity<?> recuperarFoto(@PathVariable Long restauranteId, 
 			@PathVariable Long produtoId, @RequestHeader(name = "accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {
@@ -112,6 +116,7 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
 		}
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@DeleteMapping
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public void excluir(@PathVariable Long restauranteId, 

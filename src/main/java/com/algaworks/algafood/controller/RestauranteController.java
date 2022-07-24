@@ -30,6 +30,7 @@ import com.algaworks.algafood.exception.CidadeNaoEncontradaException;
 import com.algaworks.algafood.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.exception.NegocioException;
+import com.algaworks.algafood.security.CheckSecurity;
 import com.algaworks.algafood.service.impl.RestauranteServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +49,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 	@Autowired
 	private RestauranteModelDisassembler restauranteModelDisassembler;
 	
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@GetMapping
 	public MappingJacksonValue listar(@RequestParam(required = false) String projecao) {
 		log.info("Listando restaurantes");
@@ -65,6 +67,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		return restaurenteMapper;
 	}
 	
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@GetMapping("/{id}")
 	public RestauranteDto findById(@PathVariable Long id) {
 		log.info("Buscando restaurante do id {}", id);
@@ -72,6 +75,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		return restauranteModelAssembler.toModel(restaurante);		
 	}
 
+	@CheckSecurity.Restaurantes.PodeEditar
 	@PutMapping("/{id}")
 	public RestauranteDto atualizar(@PathVariable Long id, @RequestBody @Valid RestauranteDtoInput restauranteDtoInput) {
 		log.info("Atualizando restaurante do id {}", id);
@@ -85,6 +89,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		}
 	}
 
+	@CheckSecurity.Restaurantes.PodeEditar
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping
 	public RestauranteDto adicionar(@RequestBody @Valid RestauranteDtoInput restauranteDtoInput) {
@@ -97,36 +102,42 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 		}
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@PutMapping("/{id}/ativo")
 	public void ativar(@PathVariable Long id) {
 		restauranteServiceImpl.ativar(id);
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}/inativo")
 	public void inativar(@PathVariable Long id) {
 		restauranteServiceImpl.inativar(id);
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@PutMapping("/ativacoes")
 	public void inativar(@RequestBody List<Long> restauranteIds) {
 		restauranteServiceImpl.ativar(restauranteIds);
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@DeleteMapping("/desativacoes")
 	public void desativarMultiplos(@RequestBody List<Long> restauranteIds) {
 		restauranteServiceImpl.inativar(restauranteIds);
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@PutMapping("/{id}/abertura")
 	public void abrir(@PathVariable Long id) {
 		restauranteServiceImpl.abrir(id);
 	}
-	
+
+	@CheckSecurity.Restaurantes.PodeEditar
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@PutMapping("/{id}/fechamento")
 	public void fechar(@PathVariable Long id) {

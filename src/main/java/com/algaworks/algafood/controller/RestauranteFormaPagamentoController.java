@@ -17,6 +17,7 @@ import com.algaworks.algafood.controller.openapi.RestauranteFormaPagamentoContro
 import com.algaworks.algafood.domain.Restaurante;
 import com.algaworks.algafood.dto.FormaPagamentoDto;
 import com.algaworks.algafood.dto.FormaPagamentoModelAssembler;
+import com.algaworks.algafood.security.CheckSecurity;
 import com.algaworks.algafood.service.impl.RestauranteServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 	@Autowired
 	private FormaPagamentoModelAssembler formaPagamentoModelAssembler;
 	
+	@CheckSecurity.Restaurantes.PodeConsultar
 	@GetMapping
 	public List<FormaPagamentoDto> listar(@PathVariable Long restauranteId) {
 		log.info("Listando restaurantes");
@@ -40,12 +42,14 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 		return formaPagamentoModelAssembler.toCollectionModel(restaurante.getFormasPagamentos());
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@DeleteMapping("/{formaPagamentoId}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public void dessassociar(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
 		restauranteServiceImpl.dessassociarFormaPagamento(restauranteId, formaPagamentoId);
 	}
 	
+	@CheckSecurity.Restaurantes.PodeEditar
 	@PutMapping("/{formaPagamentoId}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public void associar(@PathVariable Long restauranteId, @PathVariable Long formaPagamentoId) {
