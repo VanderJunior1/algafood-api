@@ -30,6 +30,7 @@ import com.algaworks.algafood.dto.input.PedidoInput;
 import com.algaworks.algafood.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.exception.NegocioException;
 import com.algaworks.algafood.security.AlgaSecurity;
+import com.algaworks.algafood.security.CheckSecurity;
 import com.algaworks.algafood.service.impl.EmissaoPedidoServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +58,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 	@Autowired
 	private AlgaSecurity algaSecurity;
 
+	@CheckSecurity.Pedidos.PodeConsultar
 	@GetMapping
 	public PagedModel<PedidoResumoDto> listar(@PageableDefault(size = 10) Pageable pageable) {
 		log.info("Buscando lista de pedidos");
@@ -64,6 +66,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 		return pagedResourcesAssembler.toModel(pedidosPage, pedidoResumoModelAssembler);
 	}
 
+	@CheckSecurity.Pedidos.PodeConsultar
 	@GetMapping("/{codigoPedido}")
 	public PedidoDto buscar(@PathVariable String codigoPedido) {
 		log.info("Buscando lista de pedidos de código: {}", codigoPedido);
@@ -72,6 +75,7 @@ public class PedidoController implements PedidoControllerOpenApi {
 		return pedidoModelAssembler.toModel(pedido);
 	}
 	
+	@CheckSecurity.Pedidos.PodeEditar
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public PedidoDto adicionar(@Valid @RequestBody PedidoInput pedidoInput) {
