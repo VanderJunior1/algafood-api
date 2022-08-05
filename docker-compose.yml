@@ -9,8 +9,15 @@ services:
     image: mysql:5.7
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      SPRING_SESSION_STORE_TYPE: redis
+      SPRING_REDIS_HOST: algafood-redis
     ports:
       - "3306:3306"
+    networks:
+      - algafood-network
+      
+  algafood-redis:
+    image: redis:6.2.1-alpine
     networks:
       - algafood-network
 
